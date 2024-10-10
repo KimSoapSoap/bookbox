@@ -1,5 +1,6 @@
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/main/main_page.dart';
+import 'package:bookbox/ui/user/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: SplashPage(),
-      home: MainPage(),
+      home: LoginPage(),
       theme: theme(),
     );
   }

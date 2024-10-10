@@ -1,11 +1,13 @@
 import 'package:bookbox/core/constants/color.dart';
-import 'package:bookbox/core/default_layout.dart';
 import 'package:bookbox/ui/components/custom_text_form_field.dart';
-import 'package:bookbox/ui/main/home/home_page.dart';
+import 'package:bookbox/ui/components/default_layout.dart';
+import 'package:bookbox/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+import 'join_page.dart';
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,8 @@ class LoginScreen extends StatelessWidget {
                   _SubTitle(),
                   SizedBox(height: 20),
                   Image.asset(
-                    'asset/img/misc/logo.png',
-                    //contextt가 이 위젯을 의미하는듯, 그것의 width 사이즈
+                    'assets/logo.png',
+                    //context가 이 위젯을 의미하는듯, 그것의 width 사이즈
                     width: MediaQuery.of(context).size.width / 3,
                     height: MediaQuery.of(context).size.height / 5,
                   ),
@@ -34,37 +36,54 @@ class LoginScreen extends StatelessWidget {
                     hintText: '아이디를 입력해주세요.',
                     onChanged: (String value) {},
                   ),
+                  SizedBox(
+                    height: 1,
+                  ),
                   CustomTextFormField(
                     hintText: '비밀번호를 입력해주세요.',
                     onChanged: (String value) {},
                     obscureText: true,
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      //전송 로직
+                  SizedBox(
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //전송 로직
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => HomePage(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      //버전 업 되면서 styleFrom에서 primary대신 foregroundColor로
-                      backgroundColor: PRIMARY_COLOR,
+                        //로그인 할 때는 뒤로가기 안 남기도록.
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => MainPage(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        //버전 업 되면서 styleFrom에서 primary대신 foregroundColor로
+                        backgroundColor: PRIMARY_COLOR,
+                      ),
+                      child: Text('로그인',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
-                    child: Text('로그인',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
+                  SizedBox(
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
+                        //회원가입 할 때는 뒤로가기 남긴다.
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => JoinPage(),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                      ),
+                      child: Text('회원가입'),
                     ),
-                    child: Text('회원가입'),
                   ),
                 ],
               ),
