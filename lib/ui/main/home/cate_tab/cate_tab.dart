@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
-
+class CateTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.redAccent[100],
+      color: Colors.blue[100],
       child: Center(
         child: Text(
-          '검색',
+          '주제별',
           style: TextStyle(fontSize: 20, color: Colors.black),
         ),
       ),

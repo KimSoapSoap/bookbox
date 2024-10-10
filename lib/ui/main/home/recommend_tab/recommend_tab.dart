@@ -1,16 +1,13 @@
-import 'package:bookbox/commons/layout/default_layout.dart';
 import 'package:flutter/material.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
-
+class RecommendTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.redAccent[100],
+      color: Colors.orange[100],
       child: Center(
         child: Text(
-          '설정',
+          '내서재',
           style: TextStyle(fontSize: 20, color: Colors.black),
         ),
       ),

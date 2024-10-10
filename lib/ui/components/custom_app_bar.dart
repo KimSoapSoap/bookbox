@@ -1,4 +1,4 @@
-import 'package:bookbox/commons/const/size.dart';
+import 'package:bookbox/core/constants/size.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,13 +18,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Spacer(),
+          SizedBox(width: gap_s),
           Image.asset(
             "assets/logo.png",
             width: 40,
             height: 40,
           ),
-          SizedBox(width: gap_s),
+          Spacer(),
           Text(
             '$titleText',
             style: titleStyle,
