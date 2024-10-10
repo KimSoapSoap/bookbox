@@ -2,12 +2,21 @@ import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/ui/components/custom_text_form_field.dart';
 import 'package:bookbox/ui/components/default_layout.dart';
 import 'package:bookbox/ui/main/main_page.dart';
+import 'package:bookbox/ui/user/components/err_msg.dart';
+import 'package:bookbox/ui/user/join/join_page.dart';
 import 'package:flutter/material.dart';
 
-import 'join_page.dart';
-
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? msg;
+  String? id;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +43,21 @@ class LoginPage extends StatelessWidget {
                   SizedBox(height: 20),
                   CustomTextFormField(
                     hintText: '아이디를 입력해주세요.',
-                    onChanged: (String value) {},
+                    onChanged: (String value) {
+                      id = value;
+                    },
                   ),
                   SizedBox(
                     height: 1,
                   ),
                   CustomTextFormField(
                     hintText: '비밀번호를 입력해주세요.',
-                    onChanged: (String value) {},
+                    onChanged: (String value) {
+                      password = value;
+                    },
                     obscureText: true,
                   ),
-                  SizedBox(height: 10),
+                  ErrMsg(msg: msg),
                   SizedBox(
                     height: 40,
                     child: ElevatedButton(

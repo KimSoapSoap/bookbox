@@ -37,6 +37,7 @@ class CustomTextFormField extends StatelessWidget {
       autofocus: autofocus,
       //값이 바뀔 때마다 실행되는 콜백
       //ctrl + click 해보면 무슨 타입을 받는지 알 수 있다.
+      //필요할 때 옵션 넣어주면 됨
       onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(20),
