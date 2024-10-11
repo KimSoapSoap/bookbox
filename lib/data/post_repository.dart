@@ -3,6 +3,11 @@ import 'package:bookbox/data/post.dart';
 import 'package:dio/dio.dart';
 
 class PostRepository {
+  //싱글톤 방식 사용
+  static PostRepository instance = PostRepository._single();
+
+  PostRepository._single();
+
   // 1. 게시글목록
   Future<List<Post>> findAll() async {
     Response response = await dio.get("/api/post");

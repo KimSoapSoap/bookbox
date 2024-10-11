@@ -25,7 +25,7 @@ class _CateTabState extends State<CateTab> {
             children: [
               SizedBox(height: gap_xl),
               ...BookList.map((book) {
-                return CateItem(
+                return CustomListItem(
                   theme: theme,
                   book: book,
                 );

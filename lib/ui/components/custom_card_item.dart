@@ -1,12 +1,11 @@
-import 'package:bookbox/core/constants/size.dart';
 import 'package:flutter/material.dart';
 
-class RecommendItem extends StatelessWidget {
+class CustomCardItem extends StatelessWidget {
   final String imageUrl; // 이미지 URL
   final String title; // 책 제목
   final String author; // 저자
 
-  RecommendItem({
+  CustomCardItem({
     required this.imageUrl,
     required this.title,
     required this.author,

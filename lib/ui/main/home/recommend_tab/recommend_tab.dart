@@ -36,7 +36,7 @@ class RecommendTab extends StatelessWidget {
             ),
             itemCount: 12,
             itemBuilder: (context, index) {
-              return RecommendItem(
+              return CustomCardItem(
                 imageUrl:
                     "https://picsum.photos/id/${index + 10}/200/280", // 이미지 URL
                 title: "책 제목\n제목길면청길면 $index", // 책 제목
