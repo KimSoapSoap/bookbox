@@ -1,5 +1,5 @@
-import 'package:bookbox/commons/view/root_tab.dart';
-import 'package:bookbox/styles.dart';
+import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: SplashPage(),
-      home: RootTab(),
+      home: MainPage(),
       theme: theme(),
     );
   }

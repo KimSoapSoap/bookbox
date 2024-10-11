@@ -1,7 +1,6 @@
-import 'package:bookbox/commons/const/size.dart';
-import 'package:bookbox/commons/view/root_tab.dart';
-import 'package:bookbox/home/view/home_screen.dart';
-import 'package:bookbox/library/view/library_screen.dart';
+import 'package:bookbox/core/constants/size.dart';
+import 'package:bookbox/ui/main/home/home_page.dart';
+import 'package:bookbox/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -27,7 +26,7 @@ class _SplashPageState extends State<SplashPage>
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => RootTab()),
+        MaterialPageRoute(builder: (context) => MainPage()),
       );
     });
   }

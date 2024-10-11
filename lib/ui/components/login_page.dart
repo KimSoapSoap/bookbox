@@ -1,7 +1,7 @@
-import 'package:bookbox/commons/component/custom_text_form_field.dart';
-import 'package:bookbox/commons/const/color.dart';
-import 'package:bookbox/commons/layout/default_layout.dart';
-import 'package:bookbox/commons/view/root_tab.dart';
+import 'package:bookbox/core/constants/color.dart';
+import 'package:bookbox/core/default_layout.dart';
+import 'package:bookbox/ui/components/custom_text_form_field.dart';
+import 'package:bookbox/ui/main/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
 
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => RootTab(),
+                          builder: (_) => HomePage(),
                         ),
                       );
                     },
@@ -100,4 +100,3 @@ class _SubTitle extends StatelessWidget {
         ));
   }
 }
-

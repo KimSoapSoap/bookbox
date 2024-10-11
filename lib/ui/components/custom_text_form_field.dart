@@ -1,6 +1,5 @@
+import 'package:bookbox/core/constants/color.dart';
 import 'package:flutter/material.dart';
-
-import '../const/color.dart';
 
 //외부에서 추가적으로 TextFormField마다 따로 정의해야 되는 것들은 파라미터로 정리
 //공통적으로 똑같이 스타일링 하는 것들은 TextFormField 내부에다가 정의 했다.
