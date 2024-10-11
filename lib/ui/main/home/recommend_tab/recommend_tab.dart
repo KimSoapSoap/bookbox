@@ -10,7 +10,7 @@ class RecommendTab extends StatelessWidget {
 
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2.3;
+    final double itemWidth = size.width / 2.5;
 
     return Padding(
       padding: const EdgeInsets.all(gap_s),
