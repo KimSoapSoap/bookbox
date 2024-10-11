@@ -1,3 +1,5 @@
+// 1. 창고 (ViewModel)
+// 2. 창고 데이터 (State)
 class Cate {
   int categoryId;
   String categoryName;
@@ -31,3 +33,4 @@ List<Cate> cateList = [
   Cate(categoryId: 1322, categoryName: '외국어'),
   Cate(categoryId: 8257, categoryName: '대학교재/전문서적'),
 ];
+// 3. 창고 관리자 (Provider)
