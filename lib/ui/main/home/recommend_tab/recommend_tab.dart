@@ -1,6 +1,6 @@
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
-import 'package:bookbox/ui/main/home/recommend_tab/recommend_item.dart';
+import 'package:bookbox/ui/components/custom_card_item.dart';
 import 'package:flutter/material.dart';
 
 class RecommendTab extends StatelessWidget {
@@ -24,8 +24,10 @@ class RecommendTab extends StatelessWidget {
             ),
           ),
           GridView.builder(
-            physics: NeverScrollableScrollPhysics(), // 그리드 스크롤 비활성화
-            shrinkWrap: true, // 그리드의 높이를 내용에 맞게 조절
+            physics: NeverScrollableScrollPhysics(),
+            // 그리드 스크롤 비활성화
+            shrinkWrap: true,
+            // 그리드의 높이를 내용에 맞게 조절
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 10,
               crossAxisCount: 3,
