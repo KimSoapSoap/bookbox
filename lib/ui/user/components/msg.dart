@@ -1,10 +1,11 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:flutter/cupertino.dart';
 
-class ErrMsg extends StatelessWidget {
+class Msg extends StatelessWidget {
   final String? msg;
+  final Color? color;
 
-  ErrMsg({this.msg, super.key});
+  Msg({this.msg, this.color, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class ErrMsg extends StatelessWidget {
       children: [
         SizedBox(height: 5),
         Text(
-          '$msg' ?? '',
-          style: TextStyle(color: ERROR_COLOR),
+          msg ?? '',
+          style: TextStyle(color: color ?? ERROR_COLOR),
         ),
         SizedBox(height: 5)
       ],
