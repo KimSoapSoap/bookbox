@@ -1,7 +1,6 @@
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_book_vm.dart';
 import 'package:flutter/material.dart';
-import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart';
 
 class PanelBuilder extends StatefulWidget {
   final TextTheme theme;

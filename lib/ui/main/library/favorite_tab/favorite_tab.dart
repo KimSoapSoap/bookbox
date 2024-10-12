@@ -1,15 +1,26 @@
+import 'package:bookbox/core/constants/size.dart';
+import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/main/library/favorite_tab/favorite_tab_vm.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellowAccent[100],
-      child: Center(
-        child: Text(
-          '서재탭3',
-          style: TextStyle(fontSize: 20, color: Colors.black),
-        ),
+    TextTheme theme = textTheme();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: gap_s),
+      child: ListView(
+        children: [
+          SizedBox(height: 35), // 필요시 정렬버튼 들어갈 자리
+          ...BookList.map((book) {
+            return CustomListItem(
+              theme: theme,
+              book: book,
+            );
+          }).toList(),
+        ],
       ),
     );
   }

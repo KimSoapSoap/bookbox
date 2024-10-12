@@ -18,6 +18,7 @@ class LendTab extends StatelessWidget {
       padding: const EdgeInsets.all(gap_s),
       child: ListView(
         children: [
+          SizedBox(height: 35), // 필요시 정렬버튼 들어갈 자리
           GridView.builder(
             physics: NeverScrollableScrollPhysics(),
             // 그리드 스크롤 비활성화
