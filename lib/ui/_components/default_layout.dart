@@ -45,11 +45,11 @@ class DefaultLayout extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/logo.png",
-              width: 30,
-              height: 30,
-            ),
+            // Image.asset(
+            //   "assets/logo.png",
+            //   width: 30,
+            //   height: 30,
+            // ),
             SizedBox(
               width: 10,
             ),

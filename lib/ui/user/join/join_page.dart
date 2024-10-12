@@ -1,8 +1,8 @@
 import 'package:bookbox/core/constants/color.dart';
-import 'package:bookbox/ui/components/custom_text_form_field.dart';
-import 'package:bookbox/ui/components/default_layout.dart';
-import 'package:bookbox/ui/main/main_page.dart';
+import 'package:bookbox/ui/_components/custom_text_form_field.dart';
+import 'package:bookbox/ui/_components/default_layout.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
+import 'package:bookbox/ui/user/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class JoinPage extends StatefulWidget {
@@ -114,7 +114,7 @@ class _JoinPageState extends State<JoinPage> {
                             idCheck = true;
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: PRIMARY_COLOR,
+                            backgroundColor: SECONDARY_COLOR,
                           ),
                           child: Text(
                             '중복체크',
@@ -147,7 +147,7 @@ class _JoinPageState extends State<JoinPage> {
                             nickCheck = true;
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: PRIMARY_COLOR,
+                            backgroundColor: SECONDARY_COLOR,
                           ),
                           child: Text(
                             '중복체크',
@@ -232,7 +232,7 @@ class _JoinPageState extends State<JoinPage> {
                           print(phoneNumber.text);
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (_) => MainPage(),
+                              builder: (_) => LoginPage(),
                             ),
                           );
                         } else {
@@ -241,7 +241,7 @@ class _JoinPageState extends State<JoinPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: PRIMARY_COLOR,
+                        backgroundColor: SECONDARY_COLOR,
                       ),
                       child: Text(
                         '회원가입',
@@ -257,7 +257,11 @@ class _JoinPageState extends State<JoinPage> {
                     child: TextButton(
                       onPressed: () {
                         // 이미 계정이 있다면 로그인 페이지로 이동
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => LoginPage(),
+                          ),
+                        );
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.black,

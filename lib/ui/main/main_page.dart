@@ -1,4 +1,4 @@
-import 'package:bookbox/ui/components/custom_app_bar.dart';
+import 'package:bookbox/ui/_components/custom_app_bar.dart';
 import 'package:bookbox/ui/main/home/home_page.dart';
 import 'package:bookbox/ui/main/library/library_page.dart';
 import 'package:bookbox/ui/main/search/search_page.dart';

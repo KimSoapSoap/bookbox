@@ -1,8 +1,8 @@
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart'; // Assuming this contains the Book model
 import 'package:flutter/material.dart';
 
-class CateItem extends StatelessWidget {
-  const CateItem({
+class CustomListItem extends StatelessWidget {
+  const CustomListItem({
     super.key,
     required this.theme,
     required this.book,

@@ -39,7 +39,7 @@ class CustomTextFormField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       validator: (value) => value!.isEmpty ? validator : null,
-      cursorColor: PRIMARY_COLOR,
+      cursorColor: SECONDARY_COLOR,
       //비밀번호 입력할 때
       obscureText: obscureText,
       //위젯이 화면에 오는 순간 바로 focus 시켜주겠다는 것
@@ -67,12 +67,12 @@ class CustomTextFormField extends StatelessWidget {
           focusedBorder: baseBorder.copyWith(
               borderSide: baseBorder.borderSide.copyWith(
             // 결론적으로 baseBorder설정에서 색깔만 바꿈 -> 선택됐을 때 색 변경
-            color: PRIMARY_COLOR,
+            color: SECONDARY_COLOR,
           )),
           //에러 발생후 다시 터치했을 때
           focusedErrorBorder: baseBorder.copyWith(
               borderSide: baseBorder.borderSide.copyWith(
-            color: PRIMARY_COLOR,
+            color: SECONDARY_COLOR,
           ))),
     );
   }

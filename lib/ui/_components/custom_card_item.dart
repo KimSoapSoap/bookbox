@@ -1,15 +1,14 @@
-import 'package:bookbox/core/constants/size.dart';
 import 'package:flutter/material.dart';
 
-class RecommendItem extends StatelessWidget {
+class CustomCardItem extends StatelessWidget {
   final String imageUrl; // 이미지 URL
   final String title; // 책 제목
-  final String author; // 저자
+  final String? author; // 저자
 
-  RecommendItem({
+  CustomCardItem({
     required this.imageUrl,
     required this.title,
-    required this.author,
+    this.author,
   });
 
   @override
@@ -44,17 +43,26 @@ class RecommendItem extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis, // 제목 스타일
                 ),
-                Text(
-                  author,
-                  style: TextStyle(color: Colors.grey),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis, // 저자 스타일
-                ),
+                //저자 입력 안 하면 생략
+                _author(),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _author() {
+    if (author == null) {
+      return SizedBox.shrink();
+    } else {
+      return Text(
+        author!,
+        style: TextStyle(color: Colors.grey),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis, // 저자 스타일
+      );
+    }
   }
 }

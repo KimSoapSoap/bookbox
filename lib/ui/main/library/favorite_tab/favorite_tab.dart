@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReviewTab extends StatelessWidget {
+class FavoriteTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
