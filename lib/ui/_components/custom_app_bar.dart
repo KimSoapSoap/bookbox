@@ -19,11 +19,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width: gap_s),
-          Image.asset(
-            "assets/logo.png",
-            width: 40,
-            height: 40,
-          ),
+          // Image.asset(
+          //   "assets/logo.png",
+          //   width: 40,
+          //   height: 40,
+          // ),
           Spacer(),
           Text(
             '$titleText',

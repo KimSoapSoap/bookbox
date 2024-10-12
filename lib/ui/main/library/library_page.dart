@@ -1,7 +1,7 @@
+import 'package:bookbox/ui/main/library/favorite_tab/favorite_tab.dart';
 import 'package:bookbox/ui/main/library/history_tab/history_tab.dart';
 import 'package:bookbox/ui/main/library/lend_tab/lend_tab.dart';
 import 'package:bookbox/ui/main/library/reserve_tab/reserve_tab.dart';
-import 'package:bookbox/ui/main/library/review_tab/review_tab.dart';
 import 'package:flutter/material.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -36,12 +36,13 @@ class _LibraryPageState extends State<LibraryPage>
           labelColor: Colors.blue,
           unselectedLabelColor: Colors.grey,
           indicatorColor: Colors.blue,
-          indicatorSize: TabBarIndicatorSize.tab, // 글자 말고 탭 길이 추구
+          indicatorSize: TabBarIndicatorSize.tab,
+          // 글자 말고 탭 길이 추구
           controller: tabController,
           tabs: [
             Tab(text: '대여중'),
             Tab(text: '예약중'),
-            Tab(text: '리뷰'),
+            Tab(text: '즐겨찾기'),
             Tab(text: '대여 기록'),
           ],
         ),
@@ -52,7 +53,7 @@ class _LibraryPageState extends State<LibraryPage>
             children: [
               LendTab(),
               ReserveTab(),
-              ReviewTab(),
+              FavoriteTab(),
               HistoryTab(),
             ],
           ),

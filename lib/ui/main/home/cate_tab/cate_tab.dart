@@ -1,6 +1,6 @@
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
-import 'package:bookbox/ui/components/custom_list_item.dart';
+import 'package:bookbox/ui/_components/custom_list_item.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_panel.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart';
 import 'package:flutter/material.dart';

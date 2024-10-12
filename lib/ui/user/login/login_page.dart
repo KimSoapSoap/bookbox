@@ -1,6 +1,6 @@
 import 'package:bookbox/core/constants/color.dart';
-import 'package:bookbox/ui/components/custom_text_form_field.dart';
-import 'package:bookbox/ui/components/default_layout.dart';
+import 'package:bookbox/ui/_components/custom_text_form_field.dart';
+import 'package:bookbox/ui/_components/default_layout.dart';
 import 'package:bookbox/ui/main/main_page.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
 import 'package:bookbox/ui/user/join/join_page.dart';
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         style: ElevatedButton.styleFrom(
                           //버전 업 되면서 styleFrom에서 primary대신 foregroundColor로
-                          backgroundColor: PRIMARY_COLOR,
+                          backgroundColor: SECONDARY_COLOR,
                         ),
                         child: Text('로그인',
                             style: TextStyle(
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           print(password.text);
                           //회원가입 할 때는 뒤로가기 남긴다.
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (_) => JoinPage(),
                             ),

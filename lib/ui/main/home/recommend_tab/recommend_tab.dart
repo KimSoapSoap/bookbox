@@ -1,6 +1,6 @@
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
-import 'package:bookbox/ui/components/custom_card_item.dart';
+import 'package:bookbox/ui/_components/custom_card_item.dart';
 import 'package:flutter/material.dart';
 
 class RecommendTab extends StatelessWidget {
