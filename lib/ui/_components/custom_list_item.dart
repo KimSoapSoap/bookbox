@@ -1,4 +1,5 @@
 import 'package:bookbox/core/constants/color.dart';
+import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 abstract class BookBase {
@@ -77,7 +78,7 @@ class CustomListItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 6),
-                      _lendStatus(),
+                      _lendStatus(context),
                     ],
                   ),
                 ),
@@ -89,7 +90,7 @@ class CustomListItem extends StatelessWidget {
     );
   }
 
-  Widget _lendStatus() {
+  Widget _lendStatus(BuildContext context) {
     if (book.lendStatus == true) {
       return Row(children: [
         Text(
@@ -99,33 +100,55 @@ class CustomListItem extends StatelessWidget {
             color: ERROR_COLOR,
           ),
         ),
-        SizedBox(width: 15),
-        _reservation()
+        SizedBox(width: 25),
+        _reservation(context)
       ]);
     }
     if (book.lendStatus == false) {
-      return Text(
-        '대여 가능',
-        style: TextStyle(
-          fontSize: 15,
-          color: PRIMARY_COLOR,
+      return InkWell(
+        child: Text(
+          '대여 가능',
+          style: TextStyle(
+            fontSize: 15,
+            color: PRIMARY_COLOR,
+          ),
         ),
+        onTap: () {
+          print('대여 로직');
+          CustomDialog(
+              title: '대여 확인',
+              content: '책을 대여 하시겠습니까?',
+              onConfirm: () => {
+                    print("확인 선택시 대여 로직 실행"),
+                  }).show(context);
+        },
       );
     }
     return SizedBox.shrink();
   }
 
-  Widget _reservation() {
+  Widget _reservation(BuildContext context) {
     if (book.reservationCount == null) {
       return SizedBox.shrink();
     }
     if (book.reservationCount! < 3) {
-      return Text(
-        '예약 가능',
-        style: TextStyle(
-          fontSize: 15,
-          color: SECONDARY_COLOR,
+      return InkWell(
+        child: Text(
+          '예약 가능',
+          style: TextStyle(
+            fontSize: 15,
+            color: SECONDARY_COLOR,
+          ),
         ),
+        onTap: () {
+          print('예약 로직');
+          CustomDialog(
+              title: '예약 확인',
+              content: '책을 예약 하시겠습니까?',
+              onConfirm: () => {
+                    print("확인 선택시 예약 로직 실행"),
+                  }).show(context);
+        },
       );
     } else {
       return Text(
