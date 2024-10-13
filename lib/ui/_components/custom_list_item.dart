@@ -1,5 +1,6 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
+import 'package:bookbox/ui/detail/detail_book_page.dart';
 import 'package:flutter/material.dart';
 
 abstract class BookBase {
@@ -33,6 +34,11 @@ class CustomListItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         print('책Id : ${book.isbn13}');
+        Navigator.push(context,
+          MaterialPageRoute(
+            builder: (context) => DetailBookPage(book.isbn13),
+          ),
+        );
       },
       child: Column(
         children: [
