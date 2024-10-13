@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 TextTheme lightTextTheme() {
   return TextTheme(
@@ -107,15 +108,33 @@ ThemeData darkTheme() {
 
 // 테마 모드를 관리하는 StateNotifier
 class ThemeNotifier extends StateNotifier<ThemeMode> {
-  ThemeNotifier() : super(ThemeMode.light); // 기본 상태는 light 모드
+  static const _themePrefKey = 'theme_mode';
+
+  ThemeNotifier() : super(ThemeMode.light) {
+    _loadTheme(); // 테마 로드
+  }
 
   // 다크 모드를 토글하는 메서드
-  void toggleTheme(bool isDarkMode) {
+  void toggleTheme(bool isDarkMode) async {
     if (isDarkMode) {
       state = ThemeMode.dark;
     } else {
       state = ThemeMode.light;
     }
+    await _saveTheme(); // 테마 저장
+  }
+
+// 테마를 SharedPreferences에 저장하는 메서드
+  Future<void> _saveTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_themePrefKey, state == ThemeMode.dark);
+  }
+
+// 앱 시작 시 저장된 테마를 불러오는 메서드
+  Future<void> _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isDarkMode = prefs.getBool(_themePrefKey) ?? false; // 기본값은 라이트 모드
+    state = isDarkMode ? ThemeMode.dark : ThemeMode.light;
   }
 }
 

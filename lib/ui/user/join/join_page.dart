@@ -263,9 +263,7 @@ class _JoinPageState extends State<JoinPage> {
                           ),
                         );
                       },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.black,
-                      ),
+                      style: TextButton.styleFrom(),
                       child: Text('이미 계정이 있으신가요? 로그인'),
                     ),
                   ),
@@ -288,7 +286,6 @@ class _Title extends StatelessWidget {
         style: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.w500,
-          color: Colors.black,
         ));
   }
 }
@@ -301,7 +298,6 @@ class _SubTitle extends StatelessWidget {
     return Text('회원 정보를 입력해 주세요.\n즐거운 독서 시간을 만들어 드립니다 :)',
         style: TextStyle(
           fontSize: 16,
-          color: BODY_TEXT_COLOR,
         ));
   }
 }

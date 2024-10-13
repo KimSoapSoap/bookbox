@@ -65,6 +65,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return DefaultLayout(
         body: SafeArea(
       child: Padding(
@@ -82,11 +84,18 @@ class _LoginPageState extends State<LoginPage> {
                     _Title(),
                     _SubTitle(),
                     SizedBox(height: 20),
-                    Image.asset(
-                      'assets/logo.png',
-                      //context가 이 위젯을 의미하는듯, 그것의 width 사이즈
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height / 5,
+                    ColorFiltered(
+                      colorFilter: isDarkMode
+                          ? const ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn) // 다크 모드 시 색상 변경
+                          : const ColorFilter.mode(
+                              Colors.black87, BlendMode.srcIn),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        //context가 이 위젯을 의미하는듯, 그것의 width 사이즈
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.height / 5,
+                      ),
                     ),
                     SizedBox(height: 20),
                     CustomTextFormField(
@@ -151,9 +160,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.black,
-                        ),
                         child: Text('회원가입'),
                       ),
                     ),
@@ -175,7 +181,6 @@ class _Title extends StatelessWidget {
         style: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.w500,
-          color: Colors.black,
         ));
   }
 }
@@ -188,7 +193,6 @@ class _SubTitle extends StatelessWidget {
     return Text('아이디와 비밀번호를 입력해서 로그인 해주세요.\n오늘도 행복한 독서시간이 되길 :)',
         style: TextStyle(
           fontSize: 16,
-          color: BODY_TEXT_COLOR,
         ));
   }
 }

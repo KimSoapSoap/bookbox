@@ -22,8 +22,9 @@ class SettingPageBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // StateProvider로부터 상태 읽기
     final isPushNotificationEnabled = ref.watch(pushNotificationProvider);
-    final isDarkMode =
-        ref.watch(themeNotifierProvider) == ThemeMode.dark; // 현재 테마가 다크 모드인지 확인
+
+    // 현재 테마가 다크 모드인지 확인
+    final themeMode = ref.watch(themeNotifierProvider);
 
     return ListView(
       children: [
@@ -70,10 +71,12 @@ class SettingPageBody extends ConsumerWidget {
         SettingRow(
           title: '다크모드',
           rightWidget: Switch(
-            value: isDarkMode, // 다크 모드 상태
+            value: themeMode == ThemeMode.dark, // 현재 테마 상태
             onChanged: (val) {
               // 다크 모드 상태 업데이트
-              ref.read(themeNotifierProvider.notifier).toggleTheme(val);
+              ref
+                  .read(themeNotifierProvider.notifier)
+                  .toggleTheme(val); // 테마 토글
               if (val) {
                 print("다크모드 켜짐");
               } else {
