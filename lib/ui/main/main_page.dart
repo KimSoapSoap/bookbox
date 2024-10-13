@@ -55,11 +55,11 @@ class _MainPageState extends State<MainPage>
 
   BottomNavigationBar _bottomNavigation() {
     return BottomNavigationBar(
-      selectedItemColor: Colors.blue,
-      unselectedItemColor: Colors.black38,
       selectedFontSize: 10,
       unselectedFontSize: 10,
       type: BottomNavigationBarType.fixed,
+      //다크모드에 선택색상 적용이 안돼서 그냥 수동으로
+      selectedItemColor: Colors.blueAccent,
 
       currentIndex: _currentTab,
       onTap: (index) {

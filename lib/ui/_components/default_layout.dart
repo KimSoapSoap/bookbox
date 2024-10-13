@@ -26,7 +26,6 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
       body: body,
       bottomNavigationBar: bottomNavigationBar,
@@ -39,7 +38,6 @@ class DefaultLayout extends StatelessWidget {
     //appBar없을 때 titleText만 넣으면 해당 글자로 아이콘과 글자가 중앙에 위치하는 앱바 생성됨
     if (appBar == null) {
       return AppBar(
-        backgroundColor: Colors.white,
         //앞으로 튀어나온 듯한 설정. 요즘은 그 효과를 없애는 0이 트렌드
         elevation: 0,
         title: Row(
@@ -64,7 +62,6 @@ class DefaultLayout extends StatelessWidget {
         ),
         //MaterialApp()은 AppBar의 title 정렬이 기본 왼쪽에서 시작하므로 가운데 정렬 필요시 옵션 주기
         centerTitle: true,
-        foregroundColor: Colors.black,
       );
     } else {
       return appBar;

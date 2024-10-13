@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class LendTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = textTheme();
+    TextTheme theme = lightTextTheme();
 
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;

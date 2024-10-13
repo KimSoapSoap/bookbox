@@ -24,7 +24,6 @@ class CustomActionButton extends StatelessWidget {
       height: height ?? 30.0, // 기본 높이
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? Colors.deepOrange, // 배경색 기본값
           padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6), // 모서리를 살짝 둥글게 설정

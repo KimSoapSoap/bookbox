@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class RecommendTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = textTheme();
+    TextTheme theme = lightTextTheme();
 
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -20,7 +20,10 @@ class RecommendTab extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: gap_s), // 아래 간격 조정
             child: Text(
               "00님\nBookBox 에서 추천하는 책을 만나보세요.",
-              style: theme.bodyLarge,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
           ),
           GridView.builder(

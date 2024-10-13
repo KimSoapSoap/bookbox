@@ -19,3 +19,9 @@ const INPUT_BORDER_COLOR = Color(0xFFF3F2F2);
 
 //에러 메시지 색상
 const ERROR_COLOR = Color(0xFFFF385C);
+
+//화이트 모드 색상
+const WHITE_MODE = Colors.white;
+
+//다크 모드 색상
+const DARK_MODE = Colors.black;

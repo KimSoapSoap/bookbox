@@ -34,7 +34,8 @@ class CustomListItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         print('책Id : ${book.isbn13}');
-        Navigator.push(context,
+        Navigator.push(
+          context,
           MaterialPageRoute(
             builder: (context) => DetailBookPage(book.isbn13),
           ),
@@ -45,7 +46,6 @@ class CustomListItem extends StatelessWidget {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
               border: Border(
                 bottom: BorderSide(color: Colors.grey[400]!), // 하단 경계 설정
               ),
@@ -67,12 +67,15 @@ class CustomListItem extends StatelessWidget {
                     children: [
                       Text(
                         book.title,
-                        style: theme.bodyLarge,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const SizedBox(height: 4), // 저자와 설명 사이의 간격
                       Text(
                         book.description ?? '', // 설명 텍스트
-                        style: theme.bodyMedium,
+
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
