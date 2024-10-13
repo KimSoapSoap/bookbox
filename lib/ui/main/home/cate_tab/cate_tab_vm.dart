@@ -3,13 +3,20 @@
 
 // 3. 창고 관리자 (Provider)
 
-class Book {
+import 'package:bookbox/ui/_components/custom_list_item.dart';
+
+class Book extends BookBase {
+  @override
   String isbn13;
+  @override
   String title;
+  @override
   String author;
+  @override
   String? description;
-  int categoryId;
+  @override
   String cover;
+  int categoryId;
 
   Book({
     required this.isbn13,

@@ -1,18 +1,35 @@
-import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart'; // Assuming this contains the Book model
+import 'package:bookbox/core/constants/color.dart';
+import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
+abstract class BookBase {
+  String get isbn13;
+
+  String get title;
+
+  String get author;
+
+  String? get description;
+
+  String get cover;
+
+  bool? lendStatus;
+  int? reservationCount;
+}
+
 class CustomListItem extends StatelessWidget {
+  final TextTheme theme;
+  final BookBase book;
+
   const CustomListItem({
     super.key,
     required this.theme,
     required this.book,
   });
 
-  final TextTheme theme;
-  final Book book;
-
   @override
   Widget build(BuildContext context) {
+    print(book.lendStatus.toString());
     return InkWell(
       onTap: () {
         print('책Id : ${book.isbn13}');
@@ -60,6 +77,8 @@ class CustomListItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      const SizedBox(height: 6),
+                      _lendStatus(context),
                     ],
                   ),
                 ),
@@ -69,5 +88,84 @@ class CustomListItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _lendStatus(BuildContext context) {
+    if (book.lendStatus == true) {
+      return Row(children: [
+        Text(
+          '대여 불가',
+          style: TextStyle(
+            fontSize: 15,
+            color: ERROR_COLOR,
+          ),
+        ),
+        SizedBox(width: 25),
+        _reservation(context) //대여 불가시 예약 가능 여부
+      ]);
+    }
+    if (book.lendStatus == false) {
+      return InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(border: Border.all(color: PRIMARY_COLOR)),
+          child: Text(
+            '대여 가능',
+            style: TextStyle(
+              fontSize: 15,
+              color: PRIMARY_COLOR,
+            ),
+          ),
+        ),
+        onTap: () {
+          print('대여 로직');
+          CustomDialog(
+              title: '대여 확인',
+              content: '책을 대여 하시겠습니까?',
+              onConfirm: () => {
+                    print("확인 선택시 대여 로직 실행"),
+                  }).show(context);
+        },
+      );
+    }
+    return SizedBox.shrink();
+  }
+
+  Widget _reservation(BuildContext context) {
+    if (book.reservationCount == null) {
+      return SizedBox.shrink();
+    }
+    if (book.reservationCount! < 3) {
+      return InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(border: Border.all(color: SECONDARY_COLOR)),
+          child: Text(
+            '예약 가능',
+            style: TextStyle(
+              fontSize: 15,
+              color: SECONDARY_COLOR,
+            ),
+          ),
+        ),
+        onTap: () {
+          print('예약 로직');
+          CustomDialog(
+              title: '예약 확인',
+              content: '책을 예약 하시겠습니까?',
+              onConfirm: () => {
+                    print("확인 선택시 예약 로직 실행"),
+                  }).show(context);
+        },
+      );
+    } else {
+      return Text(
+        '예약 불가',
+        style: TextStyle(
+          fontSize: 15,
+          color: ERROR_COLOR,
+        ),
+      );
+    }
   }
 }
