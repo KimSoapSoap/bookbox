@@ -101,16 +101,20 @@ class CustomListItem extends StatelessWidget {
           ),
         ),
         SizedBox(width: 25),
-        _reservation(context)
+        _reservation(context) //대여 불가시 예약 가능 여부
       ]);
     }
     if (book.lendStatus == false) {
       return InkWell(
-        child: Text(
-          '대여 가능',
-          style: TextStyle(
-            fontSize: 15,
-            color: PRIMARY_COLOR,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(border: Border.all(color: PRIMARY_COLOR)),
+          child: Text(
+            '대여 가능',
+            style: TextStyle(
+              fontSize: 15,
+              color: PRIMARY_COLOR,
+            ),
           ),
         ),
         onTap: () {
@@ -133,11 +137,15 @@ class CustomListItem extends StatelessWidget {
     }
     if (book.reservationCount! < 3) {
       return InkWell(
-        child: Text(
-          '예약 가능',
-          style: TextStyle(
-            fontSize: 15,
-            color: SECONDARY_COLOR,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(border: Border.all(color: SECONDARY_COLOR)),
+          child: Text(
+            '예약 가능',
+            style: TextStyle(
+              fontSize: 15,
+              color: SECONDARY_COLOR,
+            ),
           ),
         ),
         onTap: () {
