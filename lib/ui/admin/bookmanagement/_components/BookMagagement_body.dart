@@ -30,8 +30,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Stack(children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -130,15 +129,89 @@ class _BookManagementBodyState extends State<BookManagementBody> {
               ])
             else
               //여기에 관리중인 책 리스트
-              ListView(
-                shrinkWrap: true,
-                children: [],
+              Column(
+                children: [
+                  // 보유 도서 개수 표시
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "보유 도서: ${bookList.length}권",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  // 테이블 형식의 제목 열 (번호, 사진, 제목, 저자, 등록일, 기능)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  ),
+                  Divider(),
+                  // 도서 목록
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: bookList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final book = bookList[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 1.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Text("${index + 1}",
+                                    textAlign: TextAlign.center)),
+                            Expanded(
+                              child: Image.network(
+                                book.cover, // book.cover로 책의 이미지 URL을 받음
+                                height: 100,
+                                width: 80,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cuttingString(
+                                      10, book.title), // 제목을 최대 10자로 제한
+                                ),
+                                Text(
+                                  cuttingString(
+                                      10, book.author), // 저자를 최대 10자로 제한
+                                ),
+                                Text(book.pubDate),
+                              ],
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      // 수정 기능
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      // 삭제 기능
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
           ],
         ),
         Positioned(
           right: 10,
-          bottom: 10,
+          top: 70,
           child: FloatingActionButton(
             onPressed: () {},
             backgroundColor: Colors.white,
@@ -160,4 +233,8 @@ class _BookManagementBodyState extends State<BookManagementBody> {
       isSearching = true; // 검색 중으로 변경
     });
   }
+}
+
+String cuttingString(int cutoff, String text) {
+  return (text.length <= cutoff) ? text : '${text.substring(0, cutoff)}...';
 }

@@ -10,8 +10,8 @@ class Book extends BookBase {
   @override
   String cover;
 
-  String? publisher;
-  String? pubDate;
+  final String publisher;
+  final String pubDate;
   int? categoryId;
 
   Book({
