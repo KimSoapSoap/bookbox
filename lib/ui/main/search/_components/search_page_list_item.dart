@@ -1,10 +1,9 @@
+import 'package:bookbox/ui/_components/custom_list_item.dart';
 import 'package:flutter/material.dart';
-
-import '../search_page_vm.dart';
 
 class SearchPageListItem extends StatelessWidget {
   final TextTheme theme;
-  final Book book;
+  final BookBase book;
 
   const SearchPageListItem({
     super.key,
