@@ -1,5 +1,6 @@
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
+import 'package:bookbox/ui/admin/bookmanagement/bookedit/book_edit_page.dart';
 import 'package:bookbox/ui/main/search/_components/search_page_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                 if (resultSize == 0)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 150.0),
-                    child: Text('검색 결과가 없습니다.', // 표시할 텍스트
+                    child: Text('보유하지 않은 도서입니다.', // 표시할 텍스트
                         style: TextStyle(
                           fontSize: 16, // 텍스트 크기
                           color: Colors.grey, // 텍스트 색상
@@ -144,7 +145,13 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   ),
-                  Divider(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Divider(
+                      height: 5,
+                      thickness: 2,
+                    ),
+                  ),
                   // 도서 목록
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
@@ -154,65 +161,80 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                       final book = bookList[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 1.0),
-                        child: Row(
-                          children: [
-                            // 숫자가 차지하는 공간 줄임
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                "${index + 1}",
-                                textAlign: TextAlign.center,
+                            vertical: 5.0, horizontal: 16.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          child: Row(
+                            children: [
+                              // 숫자가 차지하는 공간 줄임
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  style: TextStyle(fontSize: 20),
+                                  "${index + 1}",
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                            ),
-                            // 이미지가 차지하는 공간을 늘림
-                            Expanded(
-                              flex: 2,
-                              child: Image.network(
-                                book.cover, // book.cover로 책의 이미지 URL을 받음
-                                height: 100,
-                                width: 80,
+                              // 이미지가 차지하는 공간을 늘림
+                              Expanded(
+                                flex: 2,
+                                child: Image.network(
+                                  book.cover, // book.cover로 책의 이미지 URL을 받음
+                                  height: 80,
+                                  width: 80,
+                                ),
                               ),
-                            ),
-                            // 나머지 정보들이 차지하는 공간
-                            Expanded(
-                              flex: 5,
-                              // flex 값을 늘려서 제목, 저자, 출판일이 더 많은 공간을 사용하게 함
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    cuttingString(
-                                        10, book.title), // 제목을 최대 10자로 제한
-                                  ),
-                                  Text(
-                                    cuttingString(
-                                        10, book.author), // 저자를 최대 10자로 제한
-                                  ),
-                                  Text(book.pubDate),
-                                ],
+                              // 나머지 정보들이 차지하는 공간
+                              Expanded(
+                                flex: 5,
+                                // flex 값을 늘려서 제목, 저자, 출판일이 더 많은 공간을 사용하게 함
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cuttingString(15, book.title),
+                                      style: TextStyle(
+                                          fontSize: 18), // 제목을 최대 10자로 제한
+                                    ),
+                                    Text(
+                                      cuttingString(
+                                          17, book.author), // 저자를 최대 10자로 제한
+                                    ),
+                                    Text(book.pubDate!),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      // 수정 기능
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      // 삭제 기능
-                                    },
-                                  ),
-                                ],
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        // 수정 기능
+                                        print('$index 수정');
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => BookEditPage(
+                                                book: bookList[index]),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        // 삭제 기능
+                                        print('$index 삭제');
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -223,7 +245,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
         ),
         Positioned(
           right: 10,
-          top: 70,
+          bottom: 10,
           child: FloatingActionButton(
             onPressed: () {},
             backgroundColor: Colors.white,

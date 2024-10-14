@@ -10,17 +10,17 @@ class Book extends BookBase {
   @override
   String cover;
 
-  final String publisher;
-  final String pubDate;
-  int? categoryId;
+  String? publisher;
+  String? pubDate;
+  final int categoryId;
 
   Book({
     required this.isbn13,
     required this.title,
     required this.author,
-    required this.publisher,
     required this.categoryId,
     required this.cover,
+    required this.publisher,
     required this.pubDate,
   });
 }

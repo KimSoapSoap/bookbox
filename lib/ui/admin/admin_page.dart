@@ -20,7 +20,7 @@ class _AdminPageState extends State<AdminPage>
   var loadPages = [0];
 
   // 각 탭의 제목 리스트
-  final List<String> titles = ['책 관리', '유저 관리', '신고', '설정'];
+  final List<String> titles = ['도서 관리', '유저 관리', '신고', '설정'];
 
   @override
   void initState() {

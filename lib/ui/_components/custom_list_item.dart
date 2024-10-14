@@ -12,6 +12,7 @@ abstract class BookBase {
 
   String get cover;
 
+  String? pubDate;
   String? publisher;
   String? description;
   bool? lendStatus;

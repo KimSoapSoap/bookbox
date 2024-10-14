@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  permission_handler: ^10.2.0
 
   flutter:
     sdk: flutter
@@ -40,11 +41,15 @@ dependencies:
   dio: ^5.5.0+1
   flutter_riverpod: ^2.5.1
   shared_preferences: ^2.3.2
+  image_picker: ^0.8.7+3
+
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-      
+
   
   
   # The "flutter_lints" package below contains a set of recommended lints to
