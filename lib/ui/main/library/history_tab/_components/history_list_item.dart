@@ -20,7 +20,6 @@ class HistoryListItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
           border: Border(
             bottom: BorderSide(color: Colors.grey[300]!),
           ),
@@ -41,9 +40,11 @@ class HistoryListItem extends StatelessWidget {
                 children: [
                   Text(
                     lend.title,
-                    style: theme.bodyLarge,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis, // 제목 스타일
                   ),
                   const SizedBox(height: 8),
                   Row(

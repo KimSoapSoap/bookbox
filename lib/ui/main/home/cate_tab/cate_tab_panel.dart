@@ -1,7 +1,6 @@
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_book_vm.dart';
 import 'package:flutter/material.dart';
-import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart';
 
 class PanelBuilder extends StatefulWidget {
   final TextTheme theme;
@@ -47,7 +46,6 @@ class _PanelBuilderState extends State<PanelBuilder> {
   // 개별 ExpansionPanel 빌드 메서드
   ExpansionPanel _buildExpansionPanel() {
     return ExpansionPanel(
-      backgroundColor: Colors.white,
       headerBuilder: (context, isOpen) {
         return Container(
           height: 20.0,

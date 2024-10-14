@@ -55,7 +55,7 @@ class CustomTextFormField extends StatelessWidget {
             fontSize: 14.0,
           ),
           // 바로 적용되지 않는다. fiiled옵션의 boolean값에 따라 다름
-          fillColor: INPUT_BG_COLOR,
+          //fillColor: INPUT_BG_COLOR,
           // true - 배경 있음 // false - 배경없음
           filled: true,
           //모든 Input 상태의 기본 스타일 세팅.

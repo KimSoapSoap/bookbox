@@ -30,7 +30,7 @@ class _SearchPageBodyState extends State<SearchPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = textTheme();
+    TextTheme theme = lightTextTheme();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

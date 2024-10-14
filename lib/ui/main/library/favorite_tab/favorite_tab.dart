@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class FavoriteTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = textTheme();
+    TextTheme theme = lightTextTheme();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: gap_s),

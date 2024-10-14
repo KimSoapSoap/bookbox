@@ -15,7 +15,7 @@ class _CateTabState extends State<CateTab> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme theme = textTheme();
+    TextTheme theme = lightTextTheme();
 
     return Padding(
       padding: const EdgeInsets.all(gap_s),
