@@ -58,10 +58,10 @@ class DetailHeader extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, color: Colors.pink), // 아이콘
+                  Icon(Icons.star_outline_sharp, color: Colors.amber), // 아이콘
                   SizedBox(width: 8), // 간격
                   Text(
-                    '좋아요 590',
+                    '찜하기 590',
                     style: TextStyle(
                       color: Colors.grey[600],
                     ),
