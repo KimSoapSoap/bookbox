@@ -30,7 +30,7 @@ class _PanelBuilderState extends State<PanelBuilder> {
         ),
       ),
       child: ExpansionPanelList(
-        dividerColor: Colors.transparent,
+        dividerColor: Colors.white,
         elevation: 0,
         expandedHeaderPadding: EdgeInsets.all(0),
         children: [
