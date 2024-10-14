@@ -157,32 +157,44 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                             vertical: 5.0, horizontal: 1.0),
                         child: Row(
                           children: [
+                            // 숫자가 차지하는 공간 줄임
                             Expanded(
-                                flex: 1,
-                                child: Text("${index + 1}",
-                                    textAlign: TextAlign.center)),
+                              flex: 1,
+                              child: Text(
+                                "${index + 1}",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            // 이미지가 차지하는 공간을 늘림
                             Expanded(
+                              flex: 2,
                               child: Image.network(
                                 book.cover, // book.cover로 책의 이미지 URL을 받음
                                 height: 100,
                                 width: 80,
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  cuttingString(
-                                      10, book.title), // 제목을 최대 10자로 제한
-                                ),
-                                Text(
-                                  cuttingString(
-                                      10, book.author), // 저자를 최대 10자로 제한
-                                ),
-                                Text(book.pubDate),
-                              ],
+                            // 나머지 정보들이 차지하는 공간
+                            Expanded(
+                              flex: 5,
+                              // flex 값을 늘려서 제목, 저자, 출판일이 더 많은 공간을 사용하게 함
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cuttingString(
+                                        10, book.title), // 제목을 최대 10자로 제한
+                                  ),
+                                  Text(
+                                    cuttingString(
+                                        10, book.author), // 저자를 최대 10자로 제한
+                                  ),
+                                  Text(book.pubDate),
+                                ],
+                              ),
                             ),
                             Expanded(
+                              flex: 2,
                               child: Column(
                                 children: [
                                   IconButton(
