@@ -1,4 +1,4 @@
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/_components/book_base.dart';
 import 'package:flutter/material.dart';
 
 class SearchPageListItem extends StatelessWidget {
