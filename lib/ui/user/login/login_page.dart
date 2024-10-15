@@ -79,6 +79,9 @@ class LoginPage extends ConsumerWidget {
                           if (_formKey.currentState!.validate()) {
                             Logger().d(
                                 "로그인 버튼 클릭됨 ${_userId.text}, ${_password.text}, sessionProvider: $sessionProvider");
+                            if (sessionProvider == null) {
+                              CircularProgressIndicator();
+                            }
                             ref.read(sessionProvider).login(
                                 _userId.text.trim(), _password.text.trim());
                             Logger().d("로그인 눌러졌나?");
@@ -95,7 +98,7 @@ class LoginPage extends ConsumerWidget {
                       height: 40,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, "/join");
+                          Navigator.pushReplacementNamed(context, "/join");
                         },
                         child: Text('회원가입'),
                       ),
@@ -149,3 +152,7 @@ class _SubTitle extends StatelessWidget {
         style: TextStyle(fontSize: 16));
   }
 }
+
+final sessionProvider = StateProvider<SessionGM>((ref) {
+  return SessionGM();
+});

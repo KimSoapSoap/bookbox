@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LibraryCardItem extends StatelessWidget {
-  final String imageUrl; // 이미지 URL
+  final String cover; // 이미지 URL
   final String title; // 책 제목
   final String? author; // 저자
 
   LibraryCardItem({
-    required this.imageUrl,
+    required this.cover,
     required this.title,
     this.author,
   });
@@ -27,7 +27,7 @@ class LibraryCardItem extends StatelessWidget {
                 ),
               ),
               child: Image.network(
-                imageUrl, // 너비를 부모에 맞추기
+                cover, // 너비를 부모에 맞추기
                 fit: BoxFit.cover, // 이미지가 잘리도록 설정
               ),
             ),
