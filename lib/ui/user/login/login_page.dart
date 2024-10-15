@@ -3,7 +3,6 @@ import 'package:bookbox/ui/_components/custom_text_form_field.dart';
 import 'package:bookbox/ui/_components/default_layout.dart';
 import 'package:bookbox/ui/main/main_page.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
-import 'package:bookbox/ui/user/join/join_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -154,11 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           print(password.text);
                           //회원가입 할 때는 뒤로가기 남긴다.
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => JoinPage(),
-                            ),
-                          );
+                          Navigator.pushNamed(context, "/join");
                         },
                         child: Text('회원가입'),
                       ),
