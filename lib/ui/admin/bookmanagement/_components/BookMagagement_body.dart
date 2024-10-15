@@ -1,6 +1,7 @@
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
 import 'package:bookbox/ui/admin/bookmanagement/bookedit/book_edit_page.dart';
+import 'package:bookbox/ui/admin/bookmanagement/bookregister/book_add_page.dart';
 import 'package:bookbox/ui/main/search/_components/search_page_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -161,7 +162,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                       final book = bookList[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 16.0),
+                            vertical: 5.0, horizontal: 12.0),
                         child: Container(
                           decoration: const BoxDecoration(
                               border: Border(
@@ -196,7 +197,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                                     Text(
                                       cuttingString(15, book.title),
                                       style: TextStyle(
-                                          fontSize: 18), // 제목을 최대 10자로 제한
+                                          fontSize: 15), // 제목을 최대 10자로 제한
                                     ),
                                     Text(
                                       cuttingString(
@@ -247,7 +248,14 @@ class _BookManagementBodyState extends State<BookManagementBody> {
           right: 10,
           bottom: 10,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookAddPage(),
+                ),
+              );
+            },
             backgroundColor: Colors.white,
             child: Icon(Icons.add, color: Colors.black),
           ),

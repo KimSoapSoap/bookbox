@@ -1,21 +1,18 @@
 import 'dart:io';
 
 import 'package:bookbox/ui/_components/default_layout.dart';
-import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart'; // 권한 처리 패키지
+import 'package:permission_handler/permission_handler.dart';
 
-class BookEditPage extends StatefulWidget {
-  final Book book;
-
-  const BookEditPage({Key? key, required this.book}) : super(key: key);
+class BookAddPage extends StatefulWidget {
+  const BookAddPage({Key? key}) : super(key: key);
 
   @override
-  State<BookEditPage> createState() => _BookEditPageState();
+  State<BookAddPage> createState() => _BookAddPageState();
 }
 
-class _BookEditPageState extends State<BookEditPage> {
+class _BookAddPageState extends State<BookAddPage> {
   late TextEditingController titleController;
   late TextEditingController authorController;
   late TextEditingController pubDateController;
@@ -27,10 +24,10 @@ class _BookEditPageState extends State<BookEditPage> {
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController(text: widget.book.title);
-    authorController = TextEditingController(text: widget.book.author);
-    pubDateController = TextEditingController(text: widget.book.pubDate);
-    publisherController = TextEditingController(text: widget.book.publisher);
+    titleController = TextEditingController();
+    authorController = TextEditingController();
+    pubDateController = TextEditingController();
+    publisherController = TextEditingController();
   }
 
   @override
@@ -44,25 +41,19 @@ class _BookEditPageState extends State<BookEditPage> {
 
   // 이미지 선택 함수 + 권한 요청 처리
   Future<void> _pickImage() async {
-    // 갤러리 접근 권한 요청
     var status = await Permission.photos.status;
     if (status.isDenied || status.isRestricted || status.isPermanentlyDenied) {
-      // 권한을 요청하고, 결과를 기다림
       status = await Permission.photos.request();
-      print(status);
     }
 
-    // 권한이 허용된 경우에만 이미지 선택 가능
     if (status.isGranted) {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         setState(() {
-          print('선택된 이미지 경로: ${pickedFile.path}'); // 경로 출력
-          _imageFile = File(pickedFile.path); // 선택된 이미지 파일을 상태에 저장
+          _imageFile = File(pickedFile.path);
         });
       }
     } else {
-      // 권한이 거부된 경우 처리
       _showPermissionDeniedDialog();
     }
   }
@@ -78,7 +69,6 @@ class _BookEditPageState extends State<BookEditPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                // 앱 설정 화면으로 이동
                 await openAppSettings();
               },
               child: Text('설정 열기'),
@@ -95,20 +85,11 @@ class _BookEditPageState extends State<BookEditPage> {
     );
   }
 
-  // 수정된 도서 정보를 저장하는 함수
+  // 새 도서 정보를 저장하는 함수
   void _saveBook() {
-    setState(() {
-      widget.book.title = titleController.text;
-      widget.book.author = authorController.text;
-      widget.book.pubDate = pubDateController.text;
-      widget.book.publisher = publisherController.text;
-
-      // 이미 저장된 책 표지를 불러오도록 초기화
-      if (widget.book.cover.isNotEmpty) {
-        _imageFile = File(widget.book.cover); // 기존 표지 이미지가 있으면 설정
-      }
-      // 실제 저장 로직 (API 요청 등) 추가
-    });
+    // 새 도서 정보를 저장 (예: API 호출로 서버에 저장)
+    print(
+        '새 도서 정보 저장: ${titleController.text}, ${authorController.text}, ${pubDateController.text}, ${publisherController.text}');
 
     Navigator.pop(context); // 저장 후 페이지 종료
   }
@@ -119,7 +100,7 @@ class _BookEditPageState extends State<BookEditPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          '도서 수정',
+          '도서 등록',
         ),
         actions: [
           IconButton(
@@ -129,7 +110,7 @@ class _BookEditPageState extends State<BookEditPage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             SizedBox(height: 10),
@@ -152,7 +133,7 @@ class _BookEditPageState extends State<BookEditPage> {
             TextField(
               controller: pubDateController,
               decoration: InputDecoration(
-                labelText: '출판일',
+                labelText: '출판일 ex) 2024-10-18',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -180,13 +161,6 @@ class _BookEditPageState extends State<BookEditPage> {
                     width: 150,
                     fit: BoxFit.cover,
                   )
-                else if (widget.book.cover.isNotEmpty)
-                  Image.network(
-                    widget.book.cover,
-                    height: 200, // 도서 표지 크기 증가
-                    width: 150,
-                    fit: BoxFit.cover,
-                  )
                 else
                   Container(
                     height: 200, // 도서 표지 크기 증가
@@ -199,17 +173,10 @@ class _BookEditPageState extends State<BookEditPage> {
                     ),
                   ),
                 SizedBox(height: 16),
-                Row(
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        _pickImage();
-                      }, // 도서 표지 선택
-                      icon: Icon(Icons.photo_library),
-                      label: Text('도서 표지 선택'),
-                    ),
-                    SizedBox(width: 16), // 버튼 간 간격 추가
-                  ],
+                ElevatedButton.icon(
+                  onPressed: _pickImage, // 도서 표지 선택
+                  icon: Icon(Icons.photo_library),
+                  label: Text('도서 표지 선택'),
                 ),
               ],
             ),
@@ -224,29 +191,3 @@ class _BookEditPageState extends State<BookEditPage> {
     );
   }
 }
-
-/* 선택한 이미지 저장 로직
-  Future<void> _saveImage() async {
-    if (_imageFile != null) {
-      // 이미 선택한 이미지 파일이 있을 경우 저장 로직 처리
-      try {
-        // 저장할 파일의 경로 지정
-        final directory = await getApplicationDocumentsDirectory();
-        final path = directory.path;
-        final fileName =
-            'book_cover_${DateTime.now().millisecondsSinceEpoch}.png';
-        final File newImage = await _imageFile!.copy('$path/$fileName');
-
-        // 저장된 파일 경로를 출력하거나 다른 처리
-        print('이미지가 저장되었습니다: ${newImage.path}');
-        setState(() {
-          widget.book.cover = newImage.path; // 책 표지 경로 업데이트
-        });
-      } catch (e) {
-        print('이미지 저장 중 오류 발생: $e');
-      }
-    } else {
-      print('저장할 이미지가 없습니다.');
-    }
-  }
-  */
