@@ -1,5 +1,7 @@
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
+import 'package:bookbox/ui/admin/bookmanagement/bookedit/book_edit_page.dart';
+import 'package:bookbox/ui/admin/bookmanagement/bookregister/book_add_page.dart';
 import 'package:bookbox/ui/main/search/_components/search_page_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -247,6 +249,14 @@ class _BookManagementBodyState extends State<BookManagementBody> {
           bottom: 10,
           child: FloatingActionButton(
             backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookAddPage(),
+                ),
+              );
+            },
             child: Icon(Icons.add, color: Colors.black),
           ),
         )

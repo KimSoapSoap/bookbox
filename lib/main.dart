@@ -1,5 +1,6 @@
 import 'package:bookbox/core/constants/styles.dart';
-import 'package:bookbox/ui/user/login/login_page.dart';
+import 'package:bookbox/ui/admin/admin_page.dart';
+import 'package:bookbox/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: SplashPage(),
-      home: MainPage(),
+      home: AdminPage(),
       theme: lightTheme(),
       darkTheme: ThemeData.dark(),
       themeMode: themeMode, // 테마 모드 설정
