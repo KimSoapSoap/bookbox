@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart'; // 권한 처리 패키지
 
@@ -45,9 +46,12 @@ class _BookEditPageState extends State<BookEditPage> {
   Future<void> _pickImage() async {
     // 갤러리 접근 권한 요청
     var status = await Permission.photos.status;
-    if (!status.isGranted) {
+    if (status.isDenied || status.isRestricted || status.isPermanentlyDenied) {
       // 권한을 요청하고, 결과를 기다림
       status = await Permission.photos.request();
+      //임시로 강제 허용할 떄
+      //status = PermissionStatus.granted;
+      print(status);
     }
 
     // 권한이 허용된 경우에만 이미지 선택 가능
@@ -56,15 +60,18 @@ class _BookEditPageState extends State<BookEditPage> {
       if (pickedFile != null) {
         setState(() {
           _imageFile = File(pickedFile.path); // 선택된 이미지 파일을 상태에 저장
+          _triggerMediaScanner(_imageFile!);
         });
       }
     } else {
       // 권한이 거부된 경우 처리
+
       _showPermissionDeniedDialog();
     }
   }
 
   // 권한이 거부되었을 때 알림창
+  // 권한이 거부된 경우 처리 (사용자가 설정 화면으로 이동하도록 안내)
   void _showPermissionDeniedDialog() {
     showDialog(
       context: context,
@@ -74,15 +81,28 @@ class _BookEditPageState extends State<BookEditPage> {
           content: Text('갤러리 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.'),
           actions: [
             TextButton(
+              onPressed: () async {
+                // 앱 설정 화면으로 이동
+              },
+              child: Text('설정 열기'),
+            ),
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('확인'),
+              child: Text('취소'),
             ),
           ],
         );
       },
     );
+  }
+
+  void _triggerMediaScanner(File file) {
+    final path = file.path;
+    const platform = MethodChannel('media_scanner');
+    platform.invokeMethod('scanMedia', {'path': path});
+    print(path);
   }
 
   // 수정된 도서 정보를 저장하는 함수
