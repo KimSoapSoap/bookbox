@@ -20,6 +20,7 @@ class SessionGM {
   Future<void> login(String username, String password) async {
     // 1. 통신 {success: 머시기, status: 미시기, errorMessage:머시기, response: 오브젝트}
     //리턴을 2개 했기 때문에 첫 번째에
+    Logger().d("통신 시도");
     var (body, accessToken) = await UserRepository().login(username, password);
 
     //통신 잘 되나 확인하기

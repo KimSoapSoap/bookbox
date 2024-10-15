@@ -25,9 +25,9 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: SplashPage(),
-      home: MainPage(),
+      initialRoute: "/login",
       routes: {
-        "/login": (context) => const LoginPage(),
+        "/login": (context) => LoginPage(),
         "/join": (context) => const JoinPage(),
         "/home": (context) => MainPage(),
         "/admin": (context) => const AdminPage(),

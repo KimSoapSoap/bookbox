@@ -1,5 +1,6 @@
 import 'package:bookbox/core/utils/my_http.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
 class UserRepository {
   //repository에는 정확한 이름이 들어가야 한다.
@@ -27,6 +28,7 @@ class UserRepository {
     final response = await dio
         .post("/login", data: {"username": username, "password": password});
 
+    Logger().d("통신 성공? $username, $password");
     //에러가 뜨는 이유는 header에 정보가 2개일 경우도 있기 때문에 리스트 타입이기 때문에 거기서 index로 꺼낸다.
     String accessToken = response.headers["Authorization"]![0];
 
