@@ -9,9 +9,7 @@ class SearchPage extends StatelessWidget {
     print("검색 그림");
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: ListView(children: [
-        SearchPageBody(),
-      ]),
+      child: SearchPageBody(),
     );
   }
 }
