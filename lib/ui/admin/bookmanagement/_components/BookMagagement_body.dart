@@ -248,6 +248,7 @@ class _BookManagementBodyState extends State<BookManagementBody> {
           right: 10,
           bottom: 10,
           child: FloatingActionButton(
+            backgroundColor: Colors.white,
             onPressed: () {
               Navigator.push(
                 context,
@@ -256,7 +257,6 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                 ),
               );
             },
-            backgroundColor: Colors.white,
             child: Icon(Icons.add, color: Colors.black),
           ),
         )
