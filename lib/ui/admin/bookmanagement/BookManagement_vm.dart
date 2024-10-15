@@ -11,15 +11,17 @@ class Book extends BookBase {
   String cover;
 
   String? publisher;
-  int categoryId;
+  String? pubDate;
+  final int categoryId;
 
   Book({
     required this.isbn13,
     required this.title,
     required this.author,
-    required this.publisher,
     required this.categoryId,
     required this.cover,
+    required this.publisher,
+    required this.pubDate,
   });
 }
 
@@ -31,6 +33,7 @@ List<Book> bookList = [
         author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',
         publisher: 'green콤퓨타',
         categoryId: 2105,
+        pubDate: '2024-10-01',
         cover:
             'https://image.aladin.co.kr/product/9871/8/cover200/k042535550_2.jpg'),
 ];

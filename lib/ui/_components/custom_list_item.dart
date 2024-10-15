@@ -10,10 +10,11 @@ abstract class BookBase {
 
   String get author;
 
-  String? get description;
-
   String get cover;
 
+  String? pubDate;
+  String? publisher;
+  String? description;
   bool? lendStatus;
   int? reservationCount;
 }
