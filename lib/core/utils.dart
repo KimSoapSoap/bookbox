@@ -7,5 +7,6 @@ final dio = Dio(
   BaseOptions(
     baseUrl: "http://localhost:8080", // 서버 IP:PORT 입력
     contentType: "application/json; charset=utf-8",
+    validateStatus: (status) => true,
   ),
 );

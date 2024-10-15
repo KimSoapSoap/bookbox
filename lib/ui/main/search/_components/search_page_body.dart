@@ -31,8 +31,7 @@ class _SearchPageBodyState extends State<SearchPageBody> {
   @override
   Widget build(BuildContext context) {
     TextTheme theme = lightTextTheme();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
