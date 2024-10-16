@@ -1,4 +1,4 @@
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/_components/book_base.dart';
 
 class Book extends BookBase {
   @override

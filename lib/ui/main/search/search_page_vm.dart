@@ -1,6 +1,6 @@
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/_components/book_base.dart';
 
-class Book extends BookBase {
+class _Book extends BookBase {
   @override
   String isbn13;
   @override
@@ -13,7 +13,7 @@ class Book extends BookBase {
   String? publisher;
   int categoryId;
 
-  Book({
+  _Book({
     required this.isbn13,
     required this.title,
     required this.author,
@@ -23,9 +23,9 @@ class Book extends BookBase {
   });
 }
 
-List<Book> bookList = [
+List<_Book> bookList = [
   for (int i = 1; i <= 30; i++)
-    Book(
+    _Book(
         isbn13: '9791187011590',
         title: '테스트 $i',
         author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',

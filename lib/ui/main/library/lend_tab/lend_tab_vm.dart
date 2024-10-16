@@ -1,50 +1,40 @@
-import 'package:bookbox/data/post_repository.dart';
+import 'package:bookbox/data/repository/main/library/lend_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// 1. 창고(ViewModel)
-class PostListVM extends StateNotifier<PostListModel?> {
-  PostListVM(super.state);
+class LendTabVm extends StateNotifier<LendListModel?> {
+  LendTabVm(super.state);
 
-  //Spring에서 service같은 부분이다. 여기서 비즈니스 로직을 처리해준다.
   Future<void> notifyInit() async {
-    //1. 통신을 해서 응답 받기
-    //한 건이면 one, 여러건이면 list  -> 우리끼리 컨벤션
-    //List<dynamic> list = await PostRepository().findAll();
-    List<dynamic> list = await PostRepository.instance.findAll();
+    print("여기는");
+    List<dynamic> list = await LendRepository.instance.findAll();
 
-    //2. 파싱
-    List<_Post> posts = list.map((e) => _Post.fromMap(e)).toList();
+    List<_Book> newList = list.map((e) => _Book.fromMap(e)).toList();
 
-    //3. 상태 확인
-    state = PostListModel(
-        posts); //깊은 복사 (기존 데이터를 건드리지 않는다. posts를 생성자에 전달하면서 새로운 객체 생성)
+    state = LendListModel(newList);
   }
 }
 
-// 2. 창고 데이터 (State) -> 상태로 만드는 이유는 클래스기 때문
-// 상태로 데이터를 유지
-class PostListModel {
-  //private으로 쓸려고 언더바를 붙여서 뺐다.
-  List<_Post> posts;
+// 2. 창고 데이터 (State)
+class LendListModel {
+//private으로 쓸려고 언더바를 붙여서 뺐다.
+  List<_Book> list;
 
-  PostListModel(this.posts);
+  LendListModel(this.list);
 }
 
-class _Post {
-  int id;
+class _Book {
+  String isbn13;
   String title;
+  String cover;
 
-  //json을 map으로 받아서 우리가 일일이 값을 빼서 객체로 만드는 것이 아니라
-  //요청해서 json을 받으면 map으로 받아서 만들어둔 _Post의 fromMap생성자에 전달해서 생성자에서 converting 해서 받아준다.
-  _Post.fromMap(map)
-      : this.id = map['id'],
-        this.title = map['title'];
+  _Book.fromMap(map)
+      : this.isbn13 = map['isbn13'],
+        this.title = map['title'],
+        this.cover = map['cover'];
 }
 
 // 3. 창고 관리자 (Provider)
-// 물음표를 넣은 이유는 일단 null을 넣어놓고 갱신시켜줄 것이므로
-final postListProvider =
-    StateNotifierProvider<PostListVM, PostListModel?>((ref) {
-  //처음에 창고를 null로 전달하고 notifyInit() 함수를 호출하고 이 함수가 종료될 때 상태변화
-  return PostListVM(null)..notifyInit();
+final LendListProvider =
+    StateNotifierProvider<LendTabVm, LendListModel?>((ref) {
+  return LendTabVm(null)..notifyInit();
 });

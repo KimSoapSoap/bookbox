@@ -1,14 +1,14 @@
 import 'package:bookbox/core/constants/color.dart';
-import 'package:bookbox/ui/_components/book_base.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/detail/detail_book_page.dart';
+import 'package:bookbox/ui/main/library/_components/library_abstract_book.dart';
 import 'package:flutter/material.dart';
 
-class CustomListItem extends StatelessWidget {
+class LibraryListItem extends StatelessWidget {
   final TextTheme theme;
-  final BookBase book;
+  final LibraryAbstractBook book;
 
-  const CustomListItem({
+  const LibraryListItem({
     super.key,
     required this.theme,
     required this.book,

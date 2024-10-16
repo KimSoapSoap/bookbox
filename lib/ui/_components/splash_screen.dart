@@ -1,38 +1,29 @@
 import 'package:bookbox/core/constants/size.dart';
-import 'package:bookbox/ui/main/home/home_page.dart';
-import 'package:bookbox/ui/main/main_page.dart';
+import 'package:bookbox/data/gm/session_gm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashPage extends StatefulWidget {
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
+// opacity 상태를 관리하는 StateProvider
+final opacityProvider = StateProvider<double>((ref) => 0.0);
 
-class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
-  double _opacity = 0.0;
+class SplashPage extends ConsumerWidget {
+  const SplashPage({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    // 일정 시간 후에 애니메이션 시작
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 현재의 opacity 값을 읽음
+    final _opacity = ref.watch(opacityProvider);
+
+    // 500ms 후에 opacity 상태 변경
     Future.delayed(Duration(milliseconds: 500), () {
-      setState(() {
-        _opacity = 1.0;
-      });
+      ref.read(opacityProvider.notifier).state = 1.0;
     });
 
-    // 3초 후에 메인 페이지로 이동
+// 3초 후에 메인 페이지로 이동
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
+      ref.read(sessionProvider).autoLogin();
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: AnimatedOpacity(

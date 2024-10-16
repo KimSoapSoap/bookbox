@@ -1,4 +1,5 @@
 import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/ui/_components/book_base.dart';
 import 'package:bookbox/ui/main/search/_components/search_page_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ class SearchPageBody extends StatefulWidget {
 
 class _SearchPageBodyState extends State<SearchPageBody> {
   List<Map<String, String>> recentSearches = [];
-  List<Book> searchResults = []; // 검색 결과를 저장할 리스트
+  List<BookBase> searchResults = []; // 검색 결과를 저장할 리스트
   int resultSize = 0;
   TextEditingController searchController = TextEditingController();
 

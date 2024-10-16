@@ -1,8 +1,13 @@
 import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/ui/_components/splash_screen.dart';
 import 'package:bookbox/ui/admin/admin_page.dart';
 import 'package:bookbox/ui/main/main_page.dart';
+import 'package:bookbox/ui/user/join/join_page.dart';
+import 'package:bookbox/ui/user/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(
@@ -19,9 +24,18 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      //home: SplashPage(),
-      home: AdminPage(),
+      home: SplashPage(),
+      //initialRoute: "/login",
+      //initialRoute: "/home",
+      routes: {
+        "/login": (context) => LoginPage(),
+        "/join": (context) => const JoinPage(),
+        "/home": (context) => MainPage(),
+        "/admin": (context) => const AdminPage(),
+      },
+
       theme: lightTheme(),
       darkTheme: ThemeData.dark(),
       themeMode: themeMode, // 테마 모드 설정

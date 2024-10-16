@@ -1,79 +1,40 @@
 import 'package:bookbox/core/constants/color.dart';
+import 'package:bookbox/data/gm/session_gm.dart';
 import 'package:bookbox/ui/_components/custom_text_form_field.dart';
-import 'package:bookbox/ui/_components/default_layout.dart';
-import 'package:bookbox/ui/main/main_page.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
-import 'package:bookbox/ui/user/join/join_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  String? msg;
+// LoginPage를 ConsumerWidget으로 변경
+class LoginPage extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  final ScrollController _scrollController = ScrollController();
-  final FocusNode _idFieldFocus = FocusNode();
-  final FocusNode _passwordFieldFocus = FocusNode();
-  final userId = TextEditingController();
-  final password = TextEditingController();
+  final _scrollController = ScrollController();
+  final _idFieldFocus = FocusNode();
+  final _passwordFieldFocus = FocusNode();
+  final _userId = TextEditingController();
+  final _password = TextEditingController();
+
+  LoginPage({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    String? msg;
+
+    // Provider로부터 ScrollController, FocusNode, TextEditingController를 가져오기
 
     // 각각의 필드 포커스 시 스크롤 동작 설정
-    _addFocusListener(_idFieldFocus);
-    _addFocusListener(_passwordFieldFocus);
-  }
+    _addFocusListener(_idFieldFocus, _scrollController);
+    _addFocusListener(_passwordFieldFocus, _scrollController);
 
-  // FocusNode에 리스너 추가하는 공통 함수
-  void _addFocusListener(FocusNode focusNode) {
-    focusNode.addListener(() {
-      if (focusNode.hasFocus) {
-        _scrollToTextBottom();
-      }
-    });
-  }
-
-  void _scrollToTextBottom() {
-    Future.delayed(Duration(milliseconds: 500), () {
-      if (_scrollController.hasClients) {
-        // 여유를 위해 maxScrollExtent에 100을 더해 스크롤 위치 설정
-        final bottomPosition = _scrollController.position.maxScrollExtent + 100;
-        _scrollController.animateTo(
-          bottomPosition,
-          duration: Duration(milliseconds: 500), // 0.5초 동안 스크롤 애니메이션
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    // 리스너 해제 및 리소스 정리
-    _idFieldFocus.dispose();
-    _passwordFieldFocus.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return DefaultLayout(
-        body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: ListView(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: ListView(
             controller: _scrollController,
-            //키보드 올라왔을 때 ListView의 화면을 드래그 하면 키보드 사라짐
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: [
               Form(
@@ -87,28 +48,25 @@ class _LoginPageState extends State<LoginPage> {
                     ColorFiltered(
                       colorFilter: isDarkMode
                           ? const ColorFilter.mode(
-                              Colors.white, BlendMode.srcIn) // 다크 모드 시 색상 변경
+                              Colors.white, BlendMode.srcIn)
                           : const ColorFilter.mode(
                               Colors.black87, BlendMode.srcIn),
                       child: Image.asset(
                         'assets/logo.png',
-                        //context가 이 위젯을 의미하는듯, 그것의 width 사이즈
                         width: MediaQuery.of(context).size.width / 3,
                         height: MediaQuery.of(context).size.height / 5,
                       ),
                     ),
                     SizedBox(height: 20),
                     CustomTextFormField(
-                      controller: userId,
+                      controller: _userId,
                       focusNode: _idFieldFocus,
                       validator: '아이디가 입력되지 않았습니다.',
                       hintText: '아이디를 입력해주세요.',
                     ),
-                    SizedBox(
-                      height: 1,
-                    ),
+                    SizedBox(height: 1),
                     CustomTextFormField(
-                      controller: password,
+                      controller: _password,
                       focusNode: _passwordFieldFocus,
                       validator: '비밀번호가 입력되지 않았습니다.',
                       hintText: '비밀번호를 입력해주세요.',
@@ -119,46 +77,25 @@ class _LoginPageState extends State<LoginPage> {
                       height: 40,
                       child: ElevatedButton(
                         onPressed: () {
-                          //전송 로직
-                          print(userId.text);
-                          //입력 검증
                           if (_formKey.currentState!.validate()) {
-                            //입력값이 존재하면 다음 로직 진행
-                            // 유효성 검사
-
-                            //로그인 할 때는 뒤로가기 안 남기도록.
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (_) => MainPage(),
-                              ),
-                            );
-                          } else {
-                            //입력 검증 실패
-                            print('2');
+                            Logger().d(
+                                "로그인 버튼 클릭됨 ${_userId.text}, ${_password.text}, sessionProvider: $sessionProvider");
+                            ref.read(sessionProvider).login(
+                                _userId.text.trim(), _password.text.trim());
                           }
-                          // end of if,
                         },
                         style: ElevatedButton.styleFrom(
-                          //버전 업 되면서 styleFrom에서 primary대신 foregroundColor로
                           backgroundColor: SECONDARY_COLOR,
                         ),
-                        child: Text('로그인',
-                            style: TextStyle(
-                              color: Colors.white,
-                            )),
+                        child:
+                            Text('로그인', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                     SizedBox(
                       height: 40,
                       child: TextButton(
                         onPressed: () {
-                          print(password.text);
-                          //회원가입 할 때는 뒤로가기 남긴다.
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => JoinPage(),
-                            ),
-                          );
+                          Navigator.pushReplacementNamed(context, "/join");
                         },
                         child: Text('회원가입'),
                       ),
@@ -166,33 +103,53 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-            ]),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
+  }
+
+  // FocusNode에 리스너 추가하는 공통 함수
+  void _addFocusListener(
+      FocusNode focusNode, ScrollController scrollController) {
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        _scrollToTextBottom(scrollController);
+      }
+    });
+  }
+
+  void _scrollToTextBottom(ScrollController scrollController) {
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (scrollController.hasClients) {
+        final bottomPosition = scrollController.position.maxScrollExtent + 100;
+        scrollController.animateTo(
+          bottomPosition,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Text('환영합니다',
-        style: TextStyle(
-          fontSize: 34,
-          fontWeight: FontWeight.w500,
-        ));
+        style: TextStyle(fontSize: 34, fontWeight: FontWeight.w500));
   }
 }
 
 class _SubTitle extends StatelessWidget {
-  const _SubTitle({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Text('아이디와 비밀번호를 입력해서 로그인 해주세요.\n오늘도 행복한 독서시간이 되길 :)',
-        style: TextStyle(
-          fontSize: 16,
-        ));
+        style: TextStyle(fontSize: 16));
   }
 }
+
+final sessionProvider = StateProvider<SessionGM>((ref) {
+  return SessionGM();
+});
