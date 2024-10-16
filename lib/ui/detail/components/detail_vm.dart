@@ -9,30 +9,23 @@ class DetailVm extends StateNotifier<DetailModel?> {
   Future<void> notifyInit(String isbn13) async {
     Logger().d("들어왔니, ${isbn13}");
     // 1. 통신 해서 응답 받기
-    Map<String, dynamic> one =
-        await DetailRepository().findDetailPageWithComment(isbn13);
+    Map<String, dynamic> one = await DetailRepository().findDetailPage(isbn13);
+    Logger().d(one);
     // 2. 파싱
     DetailBookInfo book = DetailBookInfo.fromMap(one);
     Logger().d("흠... ${book}");
-    List<Review> reviews = (one["comments"] as List)
-        .map((comment) => Review.fromMap(comment))
-        .toList();
-    Logger().d("이게맞나, ${reviews}");
     // 3. 상태 갱신
-    state = DetailModel(reviews, book);
+    state = DetailModel(book);
   }
 }
 
 // 2. 창고 데이터 (Model)
 class DetailModel {
-  List<Review> reviews;
   DetailBookInfo book;
 
-  DetailModel(this.reviews, this.book);
+  DetailModel(this.book);
 
-  DetailModel.copy(DetailModel detailModel)
-      : this.reviews = detailModel.reviews,
-        this.book = detailModel.book;
+  DetailModel.copy(DetailModel detailModel) : this.book = detailModel.book;
 }
 
 // 3. 창고 관리자 (Provider)
@@ -42,22 +35,6 @@ final detailProvider =
   detailVm.notifyInit(isbn13); // isbn13을 사용하여 초기화
   return detailVm;
 });
-
-// Review 클래스
-class Review {
-  int id;
-  String content;
-  String createdAt;
-  String nick;
-  bool owner;
-
-  Review.fromMap(map)
-      : this.id = map["id"],
-        this.content = map["content"],
-        this.createdAt = map["createdAt"],
-        this.nick = map["nick"],
-        this.owner = map["owner"];
-}
 
 // DetailBookInfo 클래스
 class DetailBookInfo {

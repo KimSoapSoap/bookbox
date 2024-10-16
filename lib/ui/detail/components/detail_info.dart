@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/core/constants/size.dart';
+import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
 import 'package:bookbox/ui/detail/components/detail_review.dart';
 import 'package:bookbox/ui/detail/components/detail_vm.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,8 @@ class DetailInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    final randomNumber = random.nextInt(10000) + 1;
     return Container(
       padding: EdgeInsets.all(gap_m),
       child: Column(
@@ -21,7 +26,7 @@ class DetailInfo extends StatelessWidget {
               Icon(Icons.people, color: Colors.blue),
               SizedBox(width: 8),
               Text(
-                '11554명이 읽고 있어요',
+                '$randomNumber명이 읽고 있어요',
                 style: TextStyle(color: Colors.black),
               ),
             ],
@@ -78,7 +83,7 @@ class DetailInfo extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailReview(),
+                        builder: (context) => DetailReview(book: book),
                       ),
                     );
                   },
