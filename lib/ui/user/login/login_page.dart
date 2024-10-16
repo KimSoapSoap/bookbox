@@ -1,7 +1,6 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/data/gm/session_gm.dart';
 import 'package:bookbox/ui/_components/custom_text_form_field.dart';
-import 'package:bookbox/ui/_components/default_layout.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +15,8 @@ class LoginPage extends ConsumerWidget {
   final _userId = TextEditingController();
   final _password = TextEditingController();
 
+  LoginPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String? msg;
@@ -28,7 +29,7 @@ class LoginPage extends ConsumerWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return DefaultLayout(
+    return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -79,12 +80,9 @@ class LoginPage extends ConsumerWidget {
                           if (_formKey.currentState!.validate()) {
                             Logger().d(
                                 "로그인 버튼 클릭됨 ${_userId.text}, ${_password.text}, sessionProvider: $sessionProvider");
-                            if (sessionProvider == null) {
-                              CircularProgressIndicator();
-                            }
+
                             ref.read(sessionProvider).login(
                                 _userId.text.trim(), _password.text.trim());
-                            Logger().d("로그인 눌러졌나?");
                           }
                         },
                         style: ElevatedButton.styleFrom(

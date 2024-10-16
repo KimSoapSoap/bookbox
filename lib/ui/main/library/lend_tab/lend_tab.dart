@@ -13,7 +13,7 @@ class LendTab extends ConsumerWidget {
     TextTheme theme = lightTextTheme();
 
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 1.8;
     final double itemWidth = size.width / 2.5;
 
     LendListModel? model = ref.watch(LendListProvider);
@@ -37,7 +37,7 @@ class LendTab extends ConsumerWidget {
                 mainAxisSpacing: 20,
                 childAspectRatio: (itemWidth / itemHeight),
               ),
-              itemCount: 12,
+              itemCount: model.list.length,
               itemBuilder: (context, index) {
                 return Stack(
                   children: [
@@ -47,14 +47,9 @@ class LendTab extends ConsumerWidget {
                       },
                       child: Column(children: [
                         LibraryCardItem(
-                          cover:
-                              "https://picsum.photos/id/${index + 10}/200/280",
+                          cover: "${model.list[index].cover}",
                           // 이미지 URL
-                          title: "책 제목\n2줄일 때", // 책 제
-                        ),
-                        Text(
-                          '기한: 24-10-20',
-                          style: TextStyle(fontSize: 12),
+                          title: "${model.list[index].title}", // 책 제
                         ),
                       ]),
                     ),
@@ -63,7 +58,7 @@ class LendTab extends ConsumerWidget {
                       top: 0,
                       child: CustomFloatingButton(
                         actions: [
-                          ListTile(title: Text('책 이름 $index')),
+                          ListTile(title: Text('${model.list[index].title}')),
                           ListTile(
                               title: Text('정보'),
                               onTap: () {

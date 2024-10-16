@@ -7,6 +7,7 @@ class LendRepository {
 
   LendRepository._single();
 
+  //대여중 리스트 출력
   Future<List<dynamic>> findAll() async {
     // 1. 통신
     Logger().d("통신 고고고");
@@ -14,7 +15,7 @@ class LendRepository {
         //로그인 문제로 임시로 토큰 넣음
         options: Options(headers: {
           "Authorization":
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJpZCI6MSwiZXhwIjoxNzI5MDMwNTMxfQ.Tzq98IX12CfE6vFi5NV63fUnDA3Kf4XvONgZ17i1rxSjutcyk-533DxGoOYVgfpaCoXYG2ZFh2YNW1-z87SMKA"
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJpZCI6MSwiZXhwIjoxNzI5MDYzNjYwfQ.vsldnfYEervQAQXFjI-VCsFU4r5O_-QNMB6qdpiIGXsl_svwfpIKImooSKySXkX9zmb4mwdUOE3twteguK-7IA"
         }));
 
     // 2. body 부분 리턴
@@ -26,7 +27,8 @@ class LendRepository {
     return list;
   }
 
-  Future<Map<String, dynamic>> autoLogin(String accessToken) async {
+  //상세 정보
+  Future<dynamic> autoLogin(String accessToken) async {
     final response = await dio.post(
       "/auto/login",
       options: Options(headers: {"Authorization": "Bearer $accessToken"}),

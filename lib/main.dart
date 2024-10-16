@@ -1,4 +1,5 @@
 import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/ui/_components/splash_screen.dart';
 import 'package:bookbox/ui/admin/admin_page.dart';
 import 'package:bookbox/ui/main/main_page.dart';
 import 'package:bookbox/ui/user/join/join_page.dart';
@@ -23,8 +24,10 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
+      key: navigatorKey,
       debugShowCheckedModeBanner: false,
       //home: SplashPage(),
+      //initialRoute: "/login",
       initialRoute: "/home",
       routes: {
         "/login": (context) => LoginPage(),

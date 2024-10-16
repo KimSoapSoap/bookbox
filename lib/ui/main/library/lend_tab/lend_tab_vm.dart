@@ -1,13 +1,11 @@
 import 'package:bookbox/data/repository/main/library/lend_repository.dart';
-import 'package:bookbox/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LendTabVm extends StateNotifier<LendListModel?> {
-  final mContext = navigatorKey.currentState!.context;
-
   LendTabVm(super.state);
 
   Future<void> notifyInit() async {
+    print("여기는");
     List<dynamic> list = await LendRepository.instance.findAll();
 
     List<_Book> newList = list.map((e) => _Book.fromMap(e)).toList();
@@ -25,7 +23,7 @@ class LendListModel {
 }
 
 class _Book {
-  int isbn13;
+  String isbn13;
   String title;
   String cover;
 

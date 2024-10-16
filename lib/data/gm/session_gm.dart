@@ -27,12 +27,12 @@ class SessionGM {
     Logger().d("세션 창고의 login()메서드 실행됨 ${body}, ${accessToken}");
 
     // 2. 성공 or 실패 처리
-    if (body["success"]) {
+    if (body["status"] == 200) {
       Logger().d("로그인 성공");
       // 성공 처리
       // (1) SessionGM값 변경
-      this.id = body["response"]["id"];
-      this.username = body["response"]["username"];
+      this.id = body["id"];
+      this.username = body["username"];
       this.accessToken = accessToken;
       this.isLogin = true;
 
@@ -41,16 +41,18 @@ class SessionGM {
       // sharedStorage가 있고 securedStorage가 있는데 토큰은 securedStorage에 저장
       await secureStorage.write(key: "accessToken", value: accessToken);
 
+      Logger().d("토큰 저장");
       // (3) dio에 토큰 세팅 -> 매번 토큰 안 꺼내기 위해
       dio.options.headers["Authorization"] =
           accessToken; // Bearer 떼고 받았기 때문에 그냥 보내준다.
 
       // (4) 화면 이동
-      Navigator.pushNamed(mContext, "/main");
+      Logger().d("화면 이동 드가자");
+      Navigator.popAndPushNamed(mContext, "/home");
     } else {
       Logger().d("로그인 실패");
       ScaffoldMessenger.of(mContext)
-          .showSnackBar(SnackBar(content: Text('$body["erroMessage"]')));
+          .showSnackBar(SnackBar(content: Text('$body["msg"]')));
     }
   }
 
@@ -72,7 +74,9 @@ class SessionGM {
     //로그아웃했으므로 로그인 페이지로 보내면서 다 지우고
     Logger().d(
         '로그아웃 실행 => id: $id,  username: $username,  accessToken: $accessToken, isLogin: $isLogin');
-    Navigator.popAndPushNamed(mContext, "/login");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.popAndPushNamed(mContext, "/login");
+    });
   }
 
   Future<void> autoLogin() async {
@@ -80,21 +84,35 @@ class SessionGM {
     String? accessToken = await secureStorage.read(key: "accessToken");
 
     if (accessToken == null) {
-      Navigator.popAndPushNamed(mContext, "/login");
+      Logger().d("토큰이 없습니다.");
+
+      Navigator.pushReplacementNamed(mContext, "/login");
     } else {
       // 2. api 호출
       Map<String, dynamic> body = await UserRepository().autoLogin(accessToken);
 
+      Logger().d("세션 창고의 autoLogin()메서드 실행됨 ${body}, ${accessToken}");
       // 3. 정상이면 post/list
       // splash창을 날리고 가야되므로 popAndPush로 보낸다.
       // 안 날리면 계속 스플래쉬 화면이 뒤에 남아 있으므로
-      this.id = body["response"]["id"];
-      this.username = body["response"]["username"];
+      this.id = body["id"];
+      this.username = body["username"];
       this.accessToken = accessToken;
       this.isLogin = true;
 
-      // 4. 정상이면 /post/list로 이동 (pop and pushNamed)
-      Navigator.popAndPushNamed(mContext, "/post/list");
+      Logger().d('화면이동시 필요한 context: $mContext');
+      // 4. 정상이면 /home이동 만료됐으면 로그인으로 (pop and pushNamed)
+
+      //토큰 만료시
+      if (body["status"] == 401) {
+        Logger().d("토큰 만료");
+        Navigator.pushReplacementNamed(mContext, "/login");
+
+        //토큰 유효
+      } else {
+        Logger().d("토큰 유효");
+        Navigator.pushReplacementNamed(mContext, "/home");
+      }
     }
   }
 }
