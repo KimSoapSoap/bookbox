@@ -80,7 +80,6 @@ class LoginPage extends ConsumerWidget {
                           if (_formKey.currentState!.validate()) {
                             Logger().d(
                                 "로그인 버튼 클릭됨 ${_userId.text}, ${_password.text}, sessionProvider: $sessionProvider");
-
                             ref.read(sessionProvider).login(
                                 _userId.text.trim(), _password.text.trim());
                           }

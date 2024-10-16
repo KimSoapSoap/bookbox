@@ -24,11 +24,11 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
-      key: navigatorKey,
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      //home: SplashPage(),
+      home: SplashPage(),
       //initialRoute: "/login",
-      initialRoute: "/home",
+      //initialRoute: "/home",
       routes: {
         "/login": (context) => LoginPage(),
         "/join": (context) => const JoinPage(),

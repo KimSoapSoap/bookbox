@@ -11,19 +11,19 @@ class LendRepository {
   Future<List<dynamic>> findAll() async {
     // 1. 통신
     Logger().d("통신 고고고");
-    var response = await dio.get("/api/lends/list",
-        //로그인 문제로 임시로 토큰 넣음
-        options: Options(headers: {
-          "Authorization":
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJpZCI6MSwiZXhwIjoxNzI5MDYzNjYwfQ.vsldnfYEervQAQXFjI-VCsFU4r5O_-QNMB6qdpiIGXsl_svwfpIKImooSKySXkX9zmb4mwdUOE3twteguK-7IA"
-        }));
+    var response = await dio.get(
+      "/api/lends/list",
+      //로그인 문제로 임시로 토큰 넣음
+      // options: Options(headers: {
+      //   "Authorization":
+      //       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJpZCI6MSwiZXhwIjoxNzI5MDYzNjYwfQ.vsldnfYEervQAQXFjI-VCsFU4r5O_-QNMB6qdpiIGXsl_svwfpIKImooSKySXkX9zmb4mwdUOE3twteguK-7IA"
+      // }
+    );
 
     // 2. body 부분 리턴
     dynamic responseBody = response.data['body'];
     print(responseBody);
     List<dynamic> list = responseBody['books'];
-    // List<dynamic> list = jsonData['body']['books'];
-
     return list;
   }
 

@@ -1,4 +1,5 @@
 import 'package:bookbox/core/constants/styles.dart';
+import 'package:bookbox/data/gm/session_gm.dart';
 import 'package:bookbox/ui/main/setting/_components/setting_log_out.dart';
 import 'package:bookbox/ui/main/setting/_components/setting_row.dart';
 import 'package:bookbox/ui/main/setting/_components/setting_separator.dart';
@@ -33,6 +34,7 @@ class SettingPageBody extends ConsumerWidget {
             username: '김그린',
             onLogout: () {
               // 로그아웃 로직
+              ref.read(sessionProvider).logout();
             }),
         SettingRow(
           title: '닉네임 변경',
