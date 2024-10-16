@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // 1. 창고
 class CateTabVM extends StateNotifier<CateTabModel?> {
+  final Map<String, List<_Book>> _cachedBooks = {};
   CateTabVM(super.state);
 
   Future<void> notifyInit() async {
@@ -24,9 +25,17 @@ class CateTabVM extends StateNotifier<CateTabModel?> {
   }
 
   Future<void> findCateTapFiler(String id) async {
+    if (_cachedBooks.containsKey(id)) {
+      // 캐시된 데이터를 사용
+      List<_Book> cachedBooks = _cachedBooks[id]!;
+      state = CateTabModel(state!.cates, cachedBooks, false);
+      return; // 캐시된 데이터를 사용했으므로 종료
+    }
+
     List<dynamic> list = await HomeRepository().findCateTapFiler(id);
     List<_Book> books = list.map((e) => _Book.fromMap(e)).toList();
     // 1.
+    _cachedBooks[id] = books;
     state = CateTabModel(state!.cates, books, false);
     // 2.
     //CateTabModel cateTabModel = state!;

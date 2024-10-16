@@ -1,9 +1,14 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/ui/detail/components/detail_review.dart';
+import 'package:bookbox/ui/detail/components/detail_vm.dart';
 import 'package:flutter/material.dart';
 
 class DetailInfo extends StatelessWidget {
+  final DetailBookInfo book;
+
+  DetailInfo({required this.book});
+
   @override
   Widget build(BuildContext context) {
     return Container(
