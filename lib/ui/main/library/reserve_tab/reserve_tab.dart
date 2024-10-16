@@ -11,7 +11,7 @@ class ReserveTab extends StatelessWidget {
     TextTheme theme = lightTextTheme();
 
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 1.8;
     final double itemWidth = size.width / 2.5;
 
     return Padding(

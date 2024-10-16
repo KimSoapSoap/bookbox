@@ -63,7 +63,6 @@ class LendTab extends ConsumerWidget {
                           ListTile(
                               title: Text('정보'),
                               onTap: () {
-                                Navigator.pop(context);
                                 print('책 상세정보로 이동');
                               }),
                           ListTile(
@@ -74,7 +73,10 @@ class LendTab extends ConsumerWidget {
                                   title: '연장 확인',
                                   content: '$index번 책을 연장 하시겠습니까?',
                                   onConfirm: () => {
-                                        print("$index번 책 확인 선택시 연장 로직 실행"),
+                                        ref
+                                            .read(LendListProvider.notifier)
+                                            .extendBook(
+                                                model.list[index].isbn13)
                                       }).show(context);
                             },
                           ),
@@ -87,6 +89,10 @@ class LendTab extends ConsumerWidget {
                                   content: '$index번 책을 반납 하시겠습니까?',
                                   onConfirm: () => {
                                         print("$index번 책 확인 선택시 반납 로직 실행"),
+                                        ref
+                                            .read(LendListProvider.notifier)
+                                            .returnBook(
+                                                model.list[index].isbn13)
                                       }).show(context);
                             },
                           ),
