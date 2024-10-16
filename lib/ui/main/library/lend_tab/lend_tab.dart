@@ -2,6 +2,7 @@ import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/_components/custom_floating_btn.dart';
+import 'package:bookbox/ui/main/home/_components/home_Indicator.dart';
 import 'package:bookbox/ui/main/library/_components/library_card_item.dart';
 import 'package:bookbox/ui/main/library/lend_tab/lend_tab_vm.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class LendTab extends ConsumerWidget {
     LendListModel? model = ref.watch(LendListProvider);
 
     if (model == null) {
-      return CircularProgressIndicator();
+      return CustomCircularProgressIndicator();
     } else {
       return Padding(
         padding: const EdgeInsets.all(gap_s),
