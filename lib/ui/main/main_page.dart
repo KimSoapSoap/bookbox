@@ -18,6 +18,7 @@ class _MainPageState extends State<MainPage>
   late TabController controller;
   int _currentTab = 0;
   var loadPages = [0];
+  final ScrollController _scrollController = ScrollController();
 
   // 각 탭의 제목 리스트
   final List<String> titles = ['홈', '내서재', '검색', '설정'];
@@ -44,7 +45,9 @@ class _MainPageState extends State<MainPage>
         body: IndexedStack(
           index: _currentTab,
           children: [
-            loadPages.contains(0) ? const HomePage() : Container(),
+            loadPages.contains(0)
+                ? HomePage(scrollController: _scrollController)
+                : Container(),
             loadPages.contains(1) ? const LibraryPage() : Container(),
             loadPages.contains(2) ? const SearchPage() : Container(),
             loadPages.contains(3) ? const SettingPage() : Container(),

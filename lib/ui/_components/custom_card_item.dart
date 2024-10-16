@@ -27,8 +27,10 @@ class CustomCardItem extends StatelessWidget {
                 ),
               ),
               child: Image.network(
-                imageUrl, // 너비를 부모에 맞추기
-                fit: BoxFit.cover, // 이미지가 잘리도록 설정
+                imageUrl,
+                height: 150,
+                width: 100,
+                fit: BoxFit.cover,
               ),
             ),
           ),

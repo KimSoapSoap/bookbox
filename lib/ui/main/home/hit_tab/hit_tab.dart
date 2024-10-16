@@ -1,8 +1,8 @@
+/*
 import 'dart:ui';
 import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/_components/custom_list_item.dart';
-import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart';
 import 'package:flutter/material.dart';
 
 class HitTab extends StatelessWidget {
@@ -36,3 +36,5 @@ class HitTab extends StatelessWidget {
     );
   }
 }
+
+ */

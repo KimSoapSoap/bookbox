@@ -1,56 +1,60 @@
+import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/core/constants/size.dart';
-import 'package:bookbox/core/constants/styles.dart';
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/main/home/_components/home_Indicator.dart';
+import 'package:bookbox/ui/main/home/_components/home_list_item.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_panel.dart';
 import 'package:bookbox/ui/main/home/cate_tab/cate_tab_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CateTab extends StatefulWidget {
-  @override
-  _CateTabState createState() => _CateTabState();
-}
+class CateTab extends ConsumerWidget {
+  final ScrollController scrollController;
 
-class _CateTabState extends State<CateTab> {
-  bool _isOpen = false; // 상태 변수 초기화
+  const CateTab({Key? key, required this.scrollController}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    TextTheme theme = lightTextTheme();
+  Widget build(BuildContext context, WidgetRef ref) {
+    TextTheme theme = Theme.of(context).textTheme;
+    CateTabModel? model = ref.watch(cateTabProvider);
+    bool _isOpen = model?.isOpen ?? false;
 
-    return Padding(
-      padding: const EdgeInsets.all(gap_s),
-      child: Stack(
-        children: [
-          ListView(
-            children: [
-              SizedBox(height: gap_xl),
-              ...BookList.map((book) {
-                return CustomListItem(
-                  theme: theme,
-                  book: book,
-                );
-              }).toList(),
-            ],
-          ),
-          Positioned(
-            top: -5, // 필요에 따라 위치 조정
-            left: 0,
-            right: 0,
-            child: PanelBuilder(
-              theme: theme,
-              isOpen: _isOpen,
-              togglePanel: _togglePanel,
+    if (model == null) {
+      return CustomCircularProgressIndicator();
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(gap_s),
+        child: Stack(
+          children: [
+            ListView(
+              controller: scrollController,
+              children: [
+                SizedBox(height: gap_xl),
+                ...model.books.map((book) {
+                  return HomeListItem(
+                    book: book,
+                    theme: theme,
+                  );
+                }).toList(),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            Positioned(
+              top: -5, // 필요에 따라 위치 조정
+              left: 0,
+              right: 0,
+              child: PanelBuilder(
+                theme: theme,
+                isOpen: _isOpen,
+                togglePanel: () => _togglePanel(ref),
+                cateList: model.cates,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
-  // 패널 상태 변경 메서드
-  void _togglePanel() {
-    setState(() {
-      _isOpen = !_isOpen;
-    });
+  void _togglePanel(WidgetRef ref) {
+    ref.read(cateTabProvider.notifier).openAndClosePanel(); // 패널 열림/닫힘 토글
   }
 }

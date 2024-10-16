@@ -1,104 +1,82 @@
-// 1. 창고 (ViewModel)
-// 2. 창고 데이터 (State)
+import 'package:bookbox/ui/main/home/_components/home_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// 3. 창고 관리자 (Provider)
+// 1. 창고
+class CateTabVM extends StateNotifier<CateTabModel?> {
+  CateTabVM(super.state);
 
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+  Future<void> notifyInit() async {
+    // 1. 통신 해서 응답 받기
+    var (cateList, bookList) =
+        await HomeRepository().findCateTap(); // 변수 이름을 일관되게 설정
+    // 2. 파싱
+    List<Cate> cates = cateList.map((e) => Cate.fromMap(e)).toList();
+    List<_Book> books = bookList.map((e) => _Book.fromMap(e)).toList();
 
-class Book extends BookBase {
-  @override
-  String isbn13;
-  @override
-  String title;
-  @override
-  String author;
-  @override
-  String? description;
-  @override
-  String cover;
-  int categoryId;
+    // 3. 상태 갱신
+    state = CateTabModel(cates, books, false); // CateTabModel 생성자에 직접 전달
+  }
 
-  Book({
-    required this.isbn13,
-    required this.title,
-    required this.author,
-    required this.description,
-    required this.categoryId,
-    required this.cover,
-  });
+  void openAndClosePanel() {
+    CateTabModel cateTabModel = state!;
+    cateTabModel.isOpen = !(cateTabModel.isOpen);
+    state = CateTabModel.copy(cateTabModel);
+  }
+
+  Future<void> findCateTapFiler(String id) async {
+    List<dynamic> list = await HomeRepository().findCateTapFiler(id);
+    List<_Book> books = list.map((e) => _Book.fromMap(e)).toList();
+    // 1.
+    state = CateTabModel(state!.cates, books, false);
+    // 2.
+    //CateTabModel cateTabModel = state!;
+    //cateTabModel.books = books;
+    //state = CateTabModel.copy(cateTabModel);
+  }
 }
 
-List<Book> BookList = [
-  Book(
-      isbn13: '9791187011590',
-      title: '데미안 (오리지널 초판본 표지디자인) - 최신 원전 완역본',
-      author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/9871/8/cover200/k042535550_2.jpg'),
-  Book(
-      isbn13: '9781234567890',
-      title: '군주론',
-      author: '제인 오스틴',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/32585/48/cover200/k442935344_1.jpg'),
-  Book(
-      isbn13: '9791187011590',
-      title: '데미안 (오리지널 초판본 표지디자인) - 최신 원전 완역본',
-      author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/9871/8/cover200/k042535550_2.jpg'),
-  Book(
-      isbn13: '9781234567890',
-      title: '군주론',
-      author: '제인 오스틴',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/32585/48/cover200/k442935344_1.jpg'),
-  Book(
-      isbn13: '9791187011590',
-      title: '데미안 (오리지널 초판본 표지디자인) - 최신 원전 완역본',
-      author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/9871/8/cover200/k042535550_2.jpg'),
-  Book(
-      isbn13: '9781234567890',
-      title: '군주론',
-      author: '제인 오스틴',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/32585/48/cover200/k442935344_1.jpg'),
-  Book(
-      isbn13: '9791187011590',
-      title: '데미안 (오리지널 초판본 표지디자인) - 최신 원전 완역본',
-      author: '헤르만 헤세 (지은이), 이미영 (옮긴이), 김선형 (해설)',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/9871/8/cover200/k042535550_2.jpg'),
-  Book(
-      isbn13: '9781234567890',
-      title: '군주론',
-      author: '제인 오스틴',
-      description:
-          '‘영혼의 전기’로 소개되는 《데미안》은 깊이 있는 정신분석과 자기 탐구로 가시밭 같은 자아 성찰의 길을 섬세하게 그려낸 그의 대표작이다. 이 책을 1919년 오리지널 초판본의 우아한 표지로 다시 만나보자.',
-      categoryId: 2105,
-      cover:
-          'https://image.aladin.co.kr/product/32585/48/cover200/k442935344_1.jpg'),
-];
+// 2. 창고 데이터
+class CateTabModel {
+  List<Cate> cates;
+  List<_Book> books;
+  bool isOpen;
+
+  CateTabModel(this.cates, this.books, this.isOpen);
+
+  CateTabModel.copy(CateTabModel cateModel)
+      : this.cates = cateModel.cates,
+        this.books = cateModel.books,
+        this.isOpen = cateModel.isOpen;
+}
+
+// 3. 창고 관리자
+final cateTabProvider = StateNotifierProvider<CateTabVM, CateTabModel?>((ref) {
+  return CateTabVM(null)..notifyInit();
+});
+
+// Riverpod 상태를 관리할 프로바이더
+final selectedCategoryProvider = StateProvider<String?>((ref) => null);
+
+class Cate {
+  String categoryId;
+  String categoryName;
+
+  Cate.fromMap(map)
+      : this.categoryId = map["id"],
+        this.categoryName = map["name"];
+}
+
+class _Book {
+  String isbn13;
+  String title;
+  String author;
+  String? description;
+  String cover;
+
+  _Book.fromMap(map)
+      : this.isbn13 = map["isbn13"],
+        this.title = map["title"],
+        this.author = map["author"],
+        this.description = map["description"],
+        this.cover = map["cover"];
+}
