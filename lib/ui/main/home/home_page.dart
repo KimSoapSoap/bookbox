@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage>
               Tab(text: '추천'),
               Tab(
                 child: Text(
-                  '최신\n업데이트', // \n로 줄바꿈
+                  '최신업데이트', // \n로 줄바꿈
                   textAlign: TextAlign.center, // 중앙 정렬
                 ),
               ),

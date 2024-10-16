@@ -1,77 +1,70 @@
 import 'package:bookbox/core/constants/size.dart';
+import 'package:bookbox/core/utils/my_http.dart';
 import 'package:bookbox/ui/_components/custom_app_bar.dart';
+import 'package:bookbox/ui/detail/components/detail_vm.dart';
+import 'package:bookbox/ui/detail/components/report_dialog.dart';
 import 'package:bookbox/ui/detail/components/review_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DetailReview extends StatefulWidget {
-  const DetailReview({super.key});
-
-  @override
-  _DetailReviewState createState() => _DetailReviewState();
-}
-
-class _DetailReviewState extends State<DetailReview> {
-  final ScrollController _scrollController = ScrollController();
-  final int _reviewsToShow = 10; // 추가할 리뷰 수
-  List<review> displayedReviews = []; // 보여줄 리뷰 리스트
+class DetailReview extends ConsumerWidget {
+  final DetailBookInfo book;
+  const DetailReview({required this.book, super.key});
 
   @override
-  void initState() {
-    super.initState();
-    displayedReviews = reviewList.take(_reviewsToShow).toList(); // 초기 리뷰 설정
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(ReviewProvider(book.isbn13));
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: ListView(
-        controller: _scrollController,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(gap_m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: model == null
+          ? CircularProgressIndicator()
+          : ListView(
               children: [
-                Center(
-                  child: Image.network(
-                    "https://picsum.photos/id/10/200/280",
-                    height: 150,
-                    width: 100,
-                    fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.all(gap_m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Image.network(
+                          book.cover,
+                          height: 150,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: gap_s),
+                      Center(
+                        child: Text(
+                          book.title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          book.author,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: gap_s),
-                Center(
-                  child: Text(
-                    '불편한 편의점',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    '김호연 저',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ),
+                _reviewForm(book.isbn13, ref, context),
+                _reviewList(book.isbn13, model.reviews, ref),
+                // _moreReviewsButton(),
               ],
             ),
-          ),
-          _reviewForm(),
-          _reviewList(),
-          _moreReviewsButton(),
-        ],
-      ),
-      floatingActionButton: _scrollToTopButton(), // 상단으로 가는 버튼 추가
     );
   }
 
   // 리뷰 등록 폼
-  Widget _reviewForm() {
+  Widget _reviewForm(String isbn13, WidgetRef ref, BuildContext context) {
+    final _content = TextEditingController();
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[200],
@@ -85,6 +78,7 @@ class _DetailReviewState extends State<DetailReview> {
             Text('이 책을 평가해주세요!'),
             SizedBox(height: gap_s),
             TextFormField(
+              controller: _content,
               minLines: 1,
               maxLines: null,
               keyboardType: TextInputType.multiline,
@@ -116,7 +110,15 @@ class _DetailReviewState extends State<DetailReview> {
                       ),
                     ),
                     onPressed: () {
-                      print('리뷰 남기기 클릭됨');
+                      ref
+                          .read(ReviewProvider(isbn13).notifier)
+                          .notifySave(isbn13, _content.text)
+                          .then((_) {
+                        // 저장이 완료되면 스낵바 표시 및 UI 갱신
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('리뷰가 성공적으로 등록되었습니다.')),
+                        );
+                      });
                     },
                     child: Text(
                       '리뷰 등록',
@@ -133,13 +135,29 @@ class _DetailReviewState extends State<DetailReview> {
   }
 
   // 댓글 리스트
-  Widget _reviewList() {
+  Widget _reviewList(String isbn13, List<Review> reviews, WidgetRef ref) {
+    if (reviews.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(gap_m),
+        child: Center(
+          child: Text(
+            '첫 번째 댓글을 달아보세요!',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      );
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: reviewList.length,
+      itemCount: reviews.length,
       itemBuilder: (context, index) {
-        final reviewItem = reviewList[index];
+        final reviewItem = reviews[index];
         return Column(
           children: [
             ListTile(
@@ -147,12 +165,13 @@ class _DetailReviewState extends State<DetailReview> {
               subtitle: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(reviewItem.username),
+                  Text(reviewItem.nick),
                   SizedBox(width: gap_m),
-                  Text(reviewItem.createdAt), // 작성 날짜 추가
+                  Text(formatDate(reviewItem.createdAt)), // 작성 날짜 추가
                 ],
               ),
-              trailing: _reviewActions(index), // 수정 및 삭제 버튼 추가
+              trailing: _reviewActions(
+                  context, reviewItem, ref, isbn13), // 수정 및 삭제 버튼 추가
             ),
             Divider(), // 각 댓글을 구분하는 경계선
           ],
@@ -161,158 +180,37 @@ class _DetailReviewState extends State<DetailReview> {
     );
   }
 
-  // 수정 및 삭제 버튼
-  Widget _reviewActions(int index) {
+// 수정 및 삭제 버튼
+  Widget _reviewActions(
+      BuildContext context, Review reviewItem, WidgetRef ref, String isbn13) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        //if (_isUserReview())
-        IconButton(
-          icon: Icon(Icons.edit, size: 16),
-          onPressed: () {
-            print('리뷰 수정: ${reviewList[index].content}');
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.delete, size: 16),
-          onPressed: () {
-            setState(() {
-              reviewList.removeAt(index);
-            });
-            print('리뷰 삭제: ${reviewList[index].content}');
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.more_vert_sharp, size: 16),
-          onPressed: () {
-            _showReportDialog(context); // 신고 다이얼로그 표시
-          },
-        ),
-      ],
-    );
-  }
-
-  // 더 보기 버튼
-  // 더 보기 버튼
-  Widget _moreReviewsButton() {
-    // 남은 리뷰 수 계산
-    int remainingReviews = reviewList.length - displayedReviews.length;
-
-    return TextButton(
-      onPressed: remainingReviews > 0
-          ? () {
-              setState(() {
-                // 더 많은 리뷰 추가
-                int currentCount = displayedReviews.length;
-                int nextCount = currentCount + _reviewsToShow;
-                if (nextCount > reviewList.length) {
-                  nextCount = reviewList.length; // 리뷰 수를 초과하지 않도록 조정
-                }
-                displayedReviews = reviewList.take(nextCount).toList();
-              });
-            }
-          : null, // 리뷰가 없으면 버튼 비활성화
-      child: Text(
-        remainingReviews > 0 ? '리뷰 $remainingReviews 개 더보기' : '더 이상 리뷰가 없습니다.',
-        style: TextStyle(
-            color: remainingReviews > 0
-                ? Colors.blue
-                : Colors.grey), // 비활성화 시 색상 변경
-      ),
-    );
-  }
-
-  // 상단으로 가는 버튼
-  Widget _scrollToTopButton() {
-    return FloatingActionButton(
-      onPressed: () {
-        _scrollController.animateTo(
-          0,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      },
-      child: Icon(Icons.arrow_upward),
-      tooltip: '상단으로 가기',
-      backgroundColor: Colors.blue, // 배경 색상
-      foregroundColor: Colors.white, // 아이콘 색상
-      elevation: 6, // 그림자 높이
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // 모서리 둥글게
-      ),
-    );
-  }
-}
-
-// JWT를 확인하여 사용자의 리뷰인지 분기를 여기서 나누나...
-bool _isUserReview() {
-  // 예: return currentUserId == reviewItem.userId;
-  return true; // 예시로 true를 반환합니다.
-}
-
-void _showReportDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return ReportDialog();
-    },
-  );
-}
-
-// ReportDialog 클래스 수정
-class ReportDialog extends StatefulWidget {
-  @override
-  _ReportDialogState createState() => _ReportDialogState();
-}
-
-class _ReportDialogState extends State<ReportDialog> {
-  String? _selectedReason;
-
-  final List<String> _reasons = [
-    '욕설',
-    '스팸',
-    '부적절한 콘텐츠',
-    '혐오 발언',
-    '위협',
-    '기타',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('댓글 신고'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: _reasons.map((reason) {
-          return RadioListTile<String>(
-            title: Text(reason),
-            value: reason,
-            groupValue: _selectedReason,
-            onChanged: (value) {
-              setState(() {
-                _selectedReason = value;
-              });
+        if (reviewItem.owner) ...[
+          // 리뷰 소유자일 때 수정 및 삭제 버튼 표시
+          IconButton(
+            icon: Icon(Icons.edit, size: 16),
+            onPressed: () {
+              print('리뷰 수정: ${reviewItem.content}'); // 수정 로직 추가 필요
             },
-          );
-        }).toList(),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('취소'),
-        ),
-        TextButton(
-          onPressed: () {
-            if (_selectedReason != null) {
-              print('신고 사유: $_selectedReason');
-              // 신고 처리 로직 추가
-            }
-            Navigator.pop(context);
-          },
-          child: Text('신고'),
-        ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete, size: 16),
+            onPressed: () {
+              ref
+                  .read(ReviewProvider(isbn13).notifier)
+                  .notifyDelete(reviewItem.id, isbn13);
+            },
+          ),
+        ] else ...[
+          // 리뷰 소유자가 아닐 때 더보기 아이콘 표시
+          IconButton(
+            icon: Icon(Icons.more_vert_sharp, size: 16),
+            onPressed: () {
+              showReportDialog(context);
+            },
+          ),
+        ],
       ],
     );
   }

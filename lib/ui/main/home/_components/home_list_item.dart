@@ -16,6 +16,12 @@ class HomeListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailBookPage(book.isbn13),
+          ),
+        );
         print('책Id : ${book.isbn13}');
       },
       child: Column(

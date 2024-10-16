@@ -1,54 +1,63 @@
-import 'package:bookbox/ui/_components/custom_list_item.dart';
+import 'package:bookbox/ui/detail/detail_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
-// 1. 창고
-class DetailVm extends StateNotifier<DatailModel?> {
+// 1. 창고 (ViewModel)
+class DetailVm extends StateNotifier<DetailModel?> {
   DetailVm(super.state);
+
+  Future<void> notifyInit(String isbn13) async {
+    Logger().d("들어왔니, ${isbn13}");
+    // 1. 통신 해서 응답 받기
+    Map<String, dynamic> one = await DetailRepository().findDetailPage(isbn13);
+    Logger().d(one);
+    // 2. 파싱
+    DetailBookInfo book = DetailBookInfo.fromMap(one);
+    Logger().d("흠... ${book}");
+    // 3. 상태 갱신
+    state = DetailModel(book);
+  }
 }
 
-// 2. 창고 데이터
-class DatailModel {
-  List<_Review> reviews;
-  _Book book;
+// 2. 창고 데이터 (Model)
+class DetailModel {
+  DetailBookInfo book;
 
-  DatailModel(this.reviews, this.book);
+  DetailModel(this.book);
+
+  DetailModel.copy(DetailModel detailModel) : this.book = detailModel.book;
 }
 
-// 3. 창고 관리자
-final DatailProvider = StateNotifierProvider<DetailVm, DatailModel?>((ref) {
-  return DetailVm(null);
+// 3. 창고 관리자 (Provider)
+final detailProvider =
+    StateNotifierProvider.family<DetailVm, DetailModel?, String>((ref, isbn13) {
+  final detailVm = DetailVm(null);
+  detailVm.notifyInit(isbn13); // isbn13을 사용하여 초기화
+  return detailVm;
 });
 
-class _Review {
-  int reviewId;
-  int userId;
-  String username;
-  String isbn13;
-  String content;
-  String createdAt;
-
-  _Review.from(map)
-      : this.reviewId = map["reviewId"],
-        this.userId = map["userId"],
-        this.username = map["username"],
-        this.isbn13 = map["isbn13"],
-        this.content = map["content"],
-        this.createdAt = map["createdAt"];
-}
-
-class _Book {
+// DetailBookInfo 클래스
+class DetailBookInfo {
   String isbn13;
   String title;
   String author;
-  String? description;
   String cover;
-  int categoryId;
+  String publisher;
+  String pubDate;
+  String? description;
+  bool lendStatus;
+  bool reservationStatus;
+  String categoryId;
 
-  _Book.from(map)
+  DetailBookInfo.fromMap(map)
       : this.isbn13 = map["isbn13"],
         this.title = map["title"],
         this.author = map["author"],
+        this.cover = map["cover"],
+        this.publisher = map["publisher"],
+        this.pubDate = map["pubDate"],
         this.description = map["description"],
-        this.categoryId = map["categoryId"],
-        this.cover = map["cover"];
+        this.lendStatus = map["lendStatus"],
+        this.reservationStatus = map["reservationStatus"],
+        this.categoryId = map["categoryId"];
 }

@@ -1,8 +1,13 @@
 import 'package:bookbox/core/constants/size.dart';
+import 'package:bookbox/ui/detail/components/detail_vm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailHeader extends StatelessWidget {
+  final DetailBookInfo book;
+
+  DetailHeader({required this.book});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,7 +17,7 @@ class DetailHeader extends StatelessWidget {
         children: [
           Center(
             child: Image.network(
-              "https://picsum.photos/id/10/200/280",
+              book.cover,
               height: 250,
               width: 200,
               fit: BoxFit.cover,
@@ -26,7 +31,7 @@ class DetailHeader extends StatelessWidget {
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            '불편한 편의점',
+            book.title,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -35,11 +40,11 @@ class DetailHeader extends StatelessWidget {
           ),
           SizedBox(height: gap_s),
           Text(
-            '김호연 저',
+            book.author,
             style: TextStyle(fontSize: 16),
           ),
           Text(
-            '나무옆의자 · 2021-05-03',
+            '${book.publisher} · ${book.pubDate}',
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: gap_m),
