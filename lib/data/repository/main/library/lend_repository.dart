@@ -19,7 +19,6 @@ class LendRepository {
 
     // 2. body 부분 리턴
     dynamic responseBody = response.data['body'];
-    print(responseBody);
     List<dynamic> list = responseBody['books'];
     return list;
   }

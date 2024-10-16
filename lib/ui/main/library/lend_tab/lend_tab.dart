@@ -47,10 +47,12 @@ class LendTab extends ConsumerWidget {
                         print('책 클릭 $index');
                       },
                       child: Column(children: [
-                        LibraryCardItem(
-                          cover: "${model.list[index].cover}",
-                          // 이미지 URL
-                          title: "${model.list[index].title}", // 책 제
+                        LendCardItem(
+                          cover: model.list[index].cover,
+                          returnDate: model.list[index].returnDate,
+                          title: model.list[index].title,
+
+                          // 책 제
                         ),
                       ]),
                     ),
@@ -59,7 +61,7 @@ class LendTab extends ConsumerWidget {
                       top: 0,
                       child: CustomFloatingButton(
                         actions: [
-                          ListTile(title: Text('${model.list[index].title}')),
+                          ListTile(title: Text(model.list[index].title)),
                           ListTile(
                               title: Text('정보'),
                               onTap: () {

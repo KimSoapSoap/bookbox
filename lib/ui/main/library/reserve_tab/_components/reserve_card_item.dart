@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class LendCardItem extends StatelessWidget {
+class ReserveCardItem extends StatelessWidget {
   final String cover; // 이미지 URL
   final String title; // 책 제목
-  final String? returnDate;
-  String? author; // 저자
+  final int sequence;
 
-  LendCardItem({
+  ReserveCardItem({
     required this.cover,
     required this.title,
-    required this.returnDate,
-    this.author,
+    required this.sequence,
   });
 
   @override
@@ -42,8 +40,9 @@ class LendCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '기한: ${returnDate!}',
-                  style: TextStyle(fontSize: 12),
+                  '예약순번: ${sequence}',
+                  style: TextStyle(fontSize: 13),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 3),
                 Text(
@@ -52,27 +51,11 @@ class LendCardItem extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis, // 제목 스타일
                 ),
-
-                //저자 입력 안 하면 생략
-                _author(),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  Widget _author() {
-    if (author == null) {
-      return SizedBox.shrink();
-    } else {
-      return Text(
-        author!,
-        style: TextStyle(color: Colors.grey),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis, // 저자 스타일
-      );
-    }
   }
 }

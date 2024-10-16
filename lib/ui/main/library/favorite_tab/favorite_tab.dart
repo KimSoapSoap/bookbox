@@ -14,7 +14,7 @@ class FavoriteTab extends StatelessWidget {
       child: ListView(
         children: [
           SizedBox(height: 35), // 필요시 정렬버튼 들어갈 자리
-          ...BookList.map((book) {
+          ...bookList.map((book) {
             return LibraryListItem(
               theme: theme,
               book: book,
