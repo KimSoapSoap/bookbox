@@ -1,4 +1,4 @@
-import 'package:bookbox/core/utils.dart';
+import 'package:bookbox/core/utils/my_http.dart';
 
 class HomeRepository {
   // 최신업데이트
