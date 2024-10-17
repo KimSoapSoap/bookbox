@@ -20,7 +20,7 @@ class SplashPage extends ConsumerWidget {
     });
 
 // 3초 후에 메인 페이지로 이동
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 1), () {
       ref.read(sessionProvider).autoLogin();
     });
 

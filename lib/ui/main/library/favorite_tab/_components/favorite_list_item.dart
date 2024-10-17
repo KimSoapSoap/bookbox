@@ -2,20 +2,23 @@ import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/detail/detail_book_page.dart';
 import 'package:bookbox/ui/main/library/_components/library_abstract_book.dart';
+import 'package:bookbox/ui/main/library/favorite_tab/favorite_tab_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LibraryListItem extends StatelessWidget {
+class FavoriteListItem extends ConsumerWidget {
   final TextTheme theme;
   final LibraryAbstractBook book;
 
-  const LibraryListItem({
+  const FavoriteListItem({
     super.key,
     required this.theme,
     required this.book,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    FavoriteModel? model = ref.watch(favoriteProvider);
     print(book.lendStatus.toString());
     return InkWell(
       onTap: () {
@@ -73,7 +76,7 @@ class LibraryListItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 6),
-                      _lendStatus(context),
+                      _lendStatus(context, ref, model!),
                     ],
                   ),
                 ),
@@ -85,7 +88,7 @@ class LibraryListItem extends StatelessWidget {
     );
   }
 
-  Widget _lendStatus(BuildContext context) {
+  Widget _lendStatus(BuildContext context, WidgetRef ref, FavoriteModel model) {
     if (book.lendStatus == true) {
       return Row(children: [
         Text(
@@ -101,27 +104,30 @@ class LibraryListItem extends StatelessWidget {
     }
     if (book.lendStatus == false) {
       return InkWell(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          decoration: BoxDecoration(border: Border.all(color: PRIMARY_COLOR)),
-          child: Text(
-            '대여 가능',
-            style: TextStyle(
-              fontSize: 15,
-              color: PRIMARY_COLOR,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(border: Border.all(color: PRIMARY_COLOR)),
+            child: Text(
+              '대여 가능',
+              style: TextStyle(
+                fontSize: 15,
+                color: PRIMARY_COLOR,
+              ),
             ),
           ),
-        ),
-        onTap: () {
-          print('대여 로직');
-          CustomDialog(
+          onTap: () {
+            print('대여 로직');
+            CustomDialog(
               title: '대여 확인',
               content: '책을 대여 하시겠습니까?',
-              onConfirm: () => {
-                    print("확인 선택시 대여 로직 실행"),
-                  }).show(context);
-        },
-      );
+              onConfirm: () {
+                print("확인 선택시 대여 로직 실행");
+
+                // 선택한 책의 ISBN13을 가져와 대여 처리
+                ref.read(favoriteProvider.notifier).lendBook(book.isbn13);
+              },
+            ).show(context);
+          });
     }
     return SizedBox.shrink();
   }
