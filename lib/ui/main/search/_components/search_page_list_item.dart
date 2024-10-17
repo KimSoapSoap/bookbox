@@ -1,9 +1,8 @@
-import 'package:bookbox/ui/_components/book_base.dart';
 import 'package:flutter/material.dart';
 
 class SearchPageListItem extends StatelessWidget {
   final TextTheme theme;
-  final BookBase book;
+  final _Book book;
 
   const SearchPageListItem({
     super.key,
@@ -67,4 +66,32 @@ class SearchPageListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Book {
+  String isbn13;
+  String title;
+  String author;
+  String publisher;
+  String cover;
+  String categoryId;
+
+  _Book({
+    required this.isbn13,
+    required this.title,
+    required this.author,
+    required this.publisher,
+    required this.cover,
+    required this.categoryId,
+  });
+
+  //String returnDate;
+
+  _Book.fromMap(map)
+      : this.isbn13 = map['isbn13'],
+        this.title = map['title'],
+        this.author = map['author'],
+        this.publisher = map['publisher'],
+        this.categoryId = map['categoryId'],
+        this.cover = map['cover'];
 }

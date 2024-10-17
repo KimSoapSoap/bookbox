@@ -1,6 +1,4 @@
-import 'package:bookbox/core/utils.dart';
 import 'package:bookbox/ui/detail/detail_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
