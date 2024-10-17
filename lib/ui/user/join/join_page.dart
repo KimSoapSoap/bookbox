@@ -1,9 +1,11 @@
 import 'package:bookbox/core/constants/color.dart';
+import 'package:bookbox/data/repository/user/user_repository.dart';
 import 'package:bookbox/ui/_components/custom_text_form_field.dart';
 import 'package:bookbox/ui/_components/default_layout.dart';
 import 'package:bookbox/ui/user/components/msg.dart';
 import 'package:bookbox/ui/user/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class JoinPage extends StatefulWidget {
   const JoinPage({super.key});
@@ -108,9 +110,15 @@ class _JoinPageState extends State<JoinPage> {
                       SizedBox(
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             // 아이디 중복 체크 확인
                             print(userId.text);
+                            dynamic resp = await UserRepository.instance
+                                .checkUsername(userId.text);
+                            if (resp.data['msg'] != 200) {
+                              print('닉네임 중복');
+                            }
+                            Logger().d("아이디 중복 아님");
                             idCheck = true;
                           },
                           style: ElevatedButton.styleFrom(

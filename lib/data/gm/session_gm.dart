@@ -21,7 +21,8 @@ class SessionGM {
     // 1. 통신 {success: 머시기, status: 미시기, errorMessage:머시기, response: 오브젝트}
     //리턴을 2개 했기 때문에 첫 번째에
     Logger().d("통신 시도");
-    var (body, accessToken) = await UserRepository().login(username, password);
+    var (body, accessToken) =
+        await UserRepository.instance.login(username, password);
 
     //통신 잘 되나 확인하기
     Logger().d("세션 창고의 login()메서드 실행됨 ${body}, ${accessToken}");
@@ -89,7 +90,8 @@ class SessionGM {
       Navigator.pushReplacementNamed(mContext, "/login");
     } else {
       // 2. api 호출
-      Map<String, dynamic> body = await UserRepository().autoLogin(accessToken);
+      Map<String, dynamic> body =
+          await UserRepository.instance.autoLogin(accessToken);
 
       Logger().d("세션 창고의 autoLogin()메서드 실행됨 ${body}, ${accessToken}");
       // 3. 정상이면 post/list
