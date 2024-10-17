@@ -46,6 +46,8 @@ class SearchPageBody extends ConsumerWidget {
                   if (searchController.text.isNotEmpty) {
                     viewModel.saveSearch(searchController.text);
                     viewModel.performSearch(searchController.text);
+                    viewModel.state =
+                        viewModel.state.copyWith(isSearching: true);
                   } else {
                     viewModel.state =
                         viewModel.state.copyWith(isSearching: true);

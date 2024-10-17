@@ -1,12 +1,11 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/detail/detail_book_page.dart';
-import 'package:bookbox/ui/main/library/_components/library_abstract_book.dart';
 import 'package:flutter/material.dart';
 
 class LibraryListItem extends StatelessWidget {
   final TextTheme theme;
-  final LibraryAbstractBook book;
+  final book;
 
   const LibraryListItem({
     super.key,
@@ -23,7 +22,7 @@ class LibraryListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailBookPage(book.isbn13),
+            builder: (context) => DetailBookPage(book.isbn13!),
           ),
         );
       },
@@ -41,7 +40,7 @@ class LibraryListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center, // 제목 정렬
               children: [
                 Image.network(
-                  book.cover, // 이미지 URL (예시)
+                  book.cover!, // 이미지 URL (예시)
                   height: 150,
                   width: 100, // 이미지 너비를 전체로 설정
                   fit: BoxFit.cover, // 이미지 비율 유지
@@ -52,7 +51,7 @@ class LibraryListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        book.title,
+                        book.title!,
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,

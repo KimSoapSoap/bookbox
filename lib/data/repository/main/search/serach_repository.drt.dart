@@ -14,10 +14,8 @@ class SearchRepository {
     Logger().d("검색 고고고");
     var response = await dio.get("/api/searches?keyword=${keyword}");
 
-    print(response);
     // 2. body 부분 리턴
     List<dynamic> list = response.data['body'];
-    print(list);
     return list;
   }
 }

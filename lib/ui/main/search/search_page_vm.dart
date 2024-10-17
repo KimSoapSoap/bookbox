@@ -1,5 +1,5 @@
 import 'package:bookbox/data/repository/main/search/serach_repository.drt.dart';
-import 'package:bookbox/ui/_components/book_base.dart';
+import 'package:bookbox/ui/main/library/_components/library_book.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,19 +26,27 @@ class SearchPageViewModel extends StateNotifier<SearchPageState> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final date = DateTime.now().toString().split(' ')[0];
 
+    // 중복된 검색어가 있는지 확인하고 제거
+    List<Map<String, String>> filteredSearches =
+        state.recentSearches.where((search) => search['word'] != word).toList();
+
+    // 새로운 검색어 추가
     List<Map<String, String>> updatedSearches = [
       {'word': word, 'date': date},
-      ...state.recentSearches,
+      ...filteredSearches,
     ];
 
+    // 검색어 리스트가 20개를 넘으면 마지막 항목 제거
     if (updatedSearches.length > 20) {
       updatedSearches.removeLast();
     }
 
+    // 검색어와 날짜를 'word|date' 형태로 변환하여 저장
     List<String> storedSearches =
         updatedSearches.map((s) => '${s['word']}|${s['date']}').toList();
     await prefs.setStringList('recent_searches', storedSearches);
 
+    // 상태 업데이트
     state = state.copyWith(recentSearches: updatedSearches);
   }
 
@@ -60,8 +68,11 @@ class SearchPageViewModel extends StateNotifier<SearchPageState> {
   }
 
   void performSearch(String keyword) async {
-    List<dynamic> bookList = await SearchRepository.instance
-        .findAllByKeyword(keyword); // 검색 결과를 받아왔다고 가정
+    List<dynamic> jsonList =
+        await SearchRepository.instance.findAllByKeyword(keyword);
+    List<Book> bookList = jsonList.map((e) => Book.fromMap(e)).toList();
+    print(bookList);
+
     state = state.copyWith(
       searchResults: bookList,
       resultSize: bookList.length,
@@ -73,7 +84,7 @@ class SearchPageViewModel extends StateNotifier<SearchPageState> {
 // State 클래스
 class SearchPageState {
   final List<Map<String, String>> recentSearches;
-  final List<BookBase> searchResults;
+  final List<Book> searchResults;
   final int resultSize;
   final bool isSearching;
 
@@ -86,7 +97,7 @@ class SearchPageState {
 
   SearchPageState copyWith({
     List<Map<String, String>>? recentSearches,
-    List<BookBase>? searchResults,
+    List<Book>? searchResults,
     int? resultSize,
     bool? isSearching,
   }) {

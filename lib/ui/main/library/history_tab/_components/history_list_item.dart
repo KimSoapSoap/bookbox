@@ -1,3 +1,4 @@
+import 'package:bookbox/ui/detail/detail_book_page.dart';
 import 'package:bookbox/ui/main/library/history_tab/history_tab_vm.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,12 @@ class HistoryListItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         print('책Id : ${lend.isbn13}');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailBookPage(lend.isbn13),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -63,9 +70,9 @@ class HistoryListItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        lend.returnState == true ? '반납됨' : '대여중',
+                        lend.returnStatus == true ? '반납됨' : '대여중',
                         style: theme.bodyMedium?.copyWith(
-                          color: lend.returnState == true
+                          color: lend.returnStatus == true
                               ? Colors.redAccent
                               : Colors.blue,
                         ),

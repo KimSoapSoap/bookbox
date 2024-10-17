@@ -2,6 +2,7 @@ import 'package:bookbox/core/constants/size.dart';
 import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/_components/custom_floating_btn.dart';
+import 'package:bookbox/ui/detail/detail_book_page.dart';
 import 'package:bookbox/ui/main/home/_components/home_Indicator.dart';
 import 'package:bookbox/ui/main/library/_components/library_card_item.dart';
 import 'package:bookbox/ui/main/library/lend_tab/lend_tab_vm.dart';
@@ -45,6 +46,13 @@ class LendTab extends ConsumerWidget {
                     InkWell(
                       onTap: () {
                         print('책 클릭 $index');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailBookPage(model.list[index].isbn13),
+                          ),
+                        );
                       },
                       child: Column(children: [
                         LendCardItem(

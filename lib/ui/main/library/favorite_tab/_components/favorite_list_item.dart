@@ -1,14 +1,14 @@
 import 'package:bookbox/core/constants/color.dart';
 import 'package:bookbox/ui/_components/custom_dialog.dart';
 import 'package:bookbox/ui/detail/detail_book_page.dart';
-import 'package:bookbox/ui/main/library/_components/library_abstract_book.dart';
+import 'package:bookbox/ui/main/library/_components/library_book.dart';
 import 'package:bookbox/ui/main/library/favorite_tab/favorite_tab_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FavoriteListItem extends ConsumerWidget {
   final TextTheme theme;
-  final LibraryAbstractBook book;
+  final Book book;
 
   const FavoriteListItem({
     super.key,
@@ -26,7 +26,7 @@ class FavoriteListItem extends ConsumerWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailBookPage(book.isbn13),
+            builder: (context) => DetailBookPage(book.isbn13 ?? ""),
           ),
         );
       },
@@ -44,7 +44,7 @@ class FavoriteListItem extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center, // 제목 정렬
               children: [
                 Image.network(
-                  book.cover, // 이미지 URL (예시)
+                  book.cover ?? "", // 이미지 URL (예시)
                   height: 150,
                   width: 100, // 이미지 너비를 전체로 설정
                   fit: BoxFit.cover, // 이미지 비율 유지
@@ -55,7 +55,7 @@ class FavoriteListItem extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        book.title,
+                        book.title ?? "",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
@@ -124,7 +124,7 @@ class FavoriteListItem extends ConsumerWidget {
                 print("확인 선택시 대여 로직 실행");
 
                 // 선택한 책의 ISBN13을 가져와 대여 처리
-                ref.read(favoriteProvider.notifier).lendBook(book.isbn13);
+                ref.read(favoriteProvider.notifier).lendBook(book.isbn13 ?? "");
               },
             ).show(context);
           });

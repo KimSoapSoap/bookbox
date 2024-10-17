@@ -2,6 +2,7 @@ import 'package:bookbox/core/constants/styles.dart';
 import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
 import 'package:bookbox/ui/admin/bookmanagement/bookedit/book_edit_page.dart';
 import 'package:bookbox/ui/admin/bookmanagement/bookregister/book_add_page.dart';
+import 'package:bookbox/ui/main/library/_components/library_book.dart';
 import 'package:bookbox/ui/main/search/_components/search_page_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -182,7 +183,8 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                               Expanded(
                                 flex: 2,
                                 child: Image.network(
-                                  book.cover, // book.cover로 책의 이미지 URL을 받음
+                                  book.cover ?? "",
+                                  // book.cover로 책의 이미지 URL을 받음
                                   height: 80,
                                   width: 80,
                                 ),
@@ -195,13 +197,13 @@ class _BookManagementBodyState extends State<BookManagementBody> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      cuttingString(15, book.title),
+                                      cuttingString(15, book.title ?? ""),
                                       style: TextStyle(
                                           fontSize: 15), // 제목을 최대 10자로 제한
                                     ),
                                     Text(
-                                      cuttingString(
-                                          17, book.author), // 저자를 최대 10자로 제한
+                                      cuttingString(17,
+                                          book.author ?? ""), // 저자를 최대 10자로 제한
                                     ),
                                     Text(book.pubDate!),
                                   ],
