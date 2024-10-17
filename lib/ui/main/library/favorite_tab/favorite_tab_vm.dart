@@ -1,5 +1,4 @@
 import 'package:bookbox/data/repository/main/library/favorite_repository.dart';
-import 'package:bookbox/ui/main/library/_components/library_abstract_book.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FavoriteTabVm extends StateNotifier<FavoriteModel?> {
@@ -60,7 +59,7 @@ class FavoriteModel {
   FavoriteModel(this.list);
 }
 
-class _Book extends LibraryAbstractBook {
+class _Book {
   String isbn13;
   String title;
   String cover;

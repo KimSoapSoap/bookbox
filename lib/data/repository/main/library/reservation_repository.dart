@@ -16,6 +16,7 @@ class ReservationRepository {
     var response = await dio.get("/api/reservation-list",
         options: Options(headers: {"Authorization": accessToken}));
 
+    print(response);
     // 2. body 부분 리턴
     List<dynamic> list = response.data;
     print(list);

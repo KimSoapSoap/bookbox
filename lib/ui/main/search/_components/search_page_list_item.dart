@@ -1,9 +1,10 @@
-import 'package:bookbox/ui/_components/book_base.dart';
+import 'package:bookbox/ui/detail/detail_book_page.dart';
+import 'package:bookbox/ui/main/library/_components/library_book.dart';
 import 'package:flutter/material.dart';
 
 class SearchPageListItem extends StatelessWidget {
   final TextTheme theme;
-  final BookBase book;
+  final Book book;
 
   const SearchPageListItem({
     super.key,
@@ -15,7 +16,12 @@ class SearchPageListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('책Id : ${book.isbn13}');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailBookPage('${book.isbn13}'),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -29,7 +35,7 @@ class SearchPageListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.network(
-              book.cover, // 이미지 URL
+              book.cover ?? "", // 이미지 URL
               height: 80,
               width: 60,
               fit: BoxFit.cover,
@@ -40,7 +46,7 @@ class SearchPageListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    book.title,
+                    book.title ?? "",
                     style: theme.bodyLarge,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

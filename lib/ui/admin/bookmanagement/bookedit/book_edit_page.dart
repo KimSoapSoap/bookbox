@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:bookbox/ui/_components/default_layout.dart';
-import 'package:bookbox/ui/admin/bookmanagement/BookManagement_vm.dart';
+import 'package:bookbox/ui/main/library/_components/library_book.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart'; // 권한 처리 패키지
+import 'package:permission_handler/permission_handler.dart';
 
 class BookEditPage extends StatefulWidget {
   final Book book;
@@ -104,13 +104,14 @@ class _BookEditPageState extends State<BookEditPage> {
       widget.book.publisher = publisherController.text;
 
       // 이미 저장된 책 표지를 불러오도록 초기화
-      if (widget.book.cover.isNotEmpty) {
-        _imageFile = File(widget.book.cover); // 기존 표지 이미지가 있으면 설정
-      }
+      //if (widget.book.cover.isNotEmpty) {
+      //_imageFile = File(widget.book.cover); // 기존 표지 이미지가 있으면 설정
+      //}
       // 실제 저장 로직 (API 요청 등) 추가
-    });
+      //});
 
-    Navigator.pop(context); // 저장 후 페이지 종료
+      //Navigator.pop(context); // 저장 후 페이지 종료
+    });
   }
 
   @override
@@ -180,9 +181,9 @@ class _BookEditPageState extends State<BookEditPage> {
                     width: 150,
                     fit: BoxFit.cover,
                   )
-                else if (widget.book.cover.isNotEmpty)
+                else if (widget.book.cover!.isNotEmpty)
                   Image.network(
-                    widget.book.cover,
+                    widget.book.cover ?? "",
                     height: 200, // 도서 표지 크기 증가
                     width: 150,
                     fit: BoxFit.cover,

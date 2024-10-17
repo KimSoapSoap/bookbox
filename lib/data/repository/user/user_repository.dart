@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
 class UserRepository {
+  static UserRepository instance = UserRepository._single();
+
+  UserRepository._single();
+
   //repository에는 정확한 이름이 들어가야 한다.
 
   //원래는 메서드가 verify라는 이름이었다. 로그인이랑 같이 있을 때 안 헷갈리게 잠시 바꿈
@@ -46,4 +50,17 @@ class UserRepository {
     //세션 정보 동기화 해주려고 리턴 해준다.
     return (body, accessToken);
   }
+
+  //아이디 중복 검사
+  Future<String> checkUsername(String username) async {
+    final response = await dio.get("/users/one-username/${username}");
+
+    if (response.statusCode != 200) {}
+
+    String body = response.data['body'];
+    print(body);
+    return body;
+  }
+
+//닉네임 중복 검사
 }
