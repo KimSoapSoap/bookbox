@@ -73,16 +73,24 @@ class LendTab extends ConsumerWidget {
                           ListTile(
                               title: Text('정보'),
                               onTap: () {
+                                Navigator.pop(context);
                                 print('책 상세정보로 이동');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailBookPage(
+                                          model.list[index].isbn13),
+                                    ));
                               }),
                           ListTile(
                             title: Text('연장'),
                             onTap: () {
-                              Navigator.pop(context); //하단 모달창 닫아주려고 씀
                               CustomDialog(
                                   title: '연장 확인',
                                   content: '$index번 책을 연장 하시겠습니까?',
                                   onConfirm: () => {
+                                        Navigator.pop(context),
+                                        //점3개로 하단에 띄운 showModalBottomSheet()창(정보 연장 반납 메뉴 있는 창)을 닫아주기 위해 사용. 이전화면으로 돌아가는 것으로 열린 창만 닫아주고 상태 변경이 없기 때문에 네트워크를 사용하지 않는다.
                                         ref
                                             .read(LendListProvider.notifier)
                                             .extendBook(
@@ -93,11 +101,11 @@ class LendTab extends ConsumerWidget {
                           ListTile(
                             title: Text('반납'),
                             onTap: () {
-                              Navigator.pop(context);
                               CustomDialog(
                                   title: '반납 확인',
                                   content: '$index번 책을 반납 하시겠습니까?',
                                   onConfirm: () => {
+                                        Navigator.pop(context), //
                                         print("$index번 책 확인 선택시 반납 로직 실행"),
                                         ref
                                             .read(LendListProvider.notifier)

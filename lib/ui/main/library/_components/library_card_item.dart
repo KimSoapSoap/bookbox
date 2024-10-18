@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LendCardItem extends StatelessWidget {
   final String cover; // 이미지 URL
   final String title; // 책 제목
-  final String? returnDate;
+  final String returnDate;
   String? author; // 저자
 
   LendCardItem({
