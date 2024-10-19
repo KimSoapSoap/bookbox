@@ -16,9 +16,9 @@
 
 <br>
 
-## Back-End 주소 (Flutter)
+## Front-End 주소 (Flutter)
 
-> Front-End GitHub 주소 : https://github.com/KimSoapSoap/bookbox-api
+> Front-End GitHub 주소 : https://github.com/KimSoapSoap/bookbox
 >
 > (배포 후 배포 서버 추가하기)
 
@@ -58,9 +58,9 @@ git clone https://github.com/KimSoapSoap/bookbox.git
 
 ### Development
 
-<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=OpenJDK&logoColor=white">
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white">
+<img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=fff">
+<img src="https://img.shields.io/badge/Dart-%230175C2.svg?logo=dart&logoColor=white)">
+<img src="https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white">
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
 
