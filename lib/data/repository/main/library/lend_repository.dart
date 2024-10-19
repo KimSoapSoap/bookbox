@@ -18,8 +18,7 @@ class LendRepository {
         options: Options(headers: {"Authorization": accessToken}));
 
     // 2. body 부분 리턴
-    dynamic responseBody = response.data['body'];
-    List<dynamic> list = responseBody['books'];
+    List<dynamic> list = response.data['body']['books'];
     return list;
   }
 
@@ -32,9 +31,7 @@ class LendRepository {
         options: Options(headers: {"Authorization": accessToken}));
 
     dynamic responseBody = response.data['body'];
-    print(responseBody);
     dynamic returnDate = responseBody['returnDate'];
-    print(returnDate);
 
     return DateUtil.format(returnDate);
   }
@@ -48,9 +45,7 @@ class LendRepository {
         options: Options(headers: {"Authorization": accessToken}));
 
     dynamic responseBody = response.data['body'];
-    print(responseBody);
     dynamic returnedDate = responseBody['returnDate'];
-    print(returnedDate);
 
     return DateUtil.format(returnedDate);
   }

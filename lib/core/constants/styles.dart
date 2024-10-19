@@ -85,6 +85,7 @@ BottomNavigationBarThemeData darkBottomNavigatorTheme() {
   );
 }
 
+//라이트 모드 테마
 ThemeData lightTheme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,

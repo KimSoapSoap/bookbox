@@ -1,5 +1,5 @@
-import 'package:bookbox/core/utils/date_format.dart';
 import 'package:bookbox/data/repository/main/library/lend_repository.dart';
+import 'package:bookbox/ui/main/library/_components/library_lend.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LendTabVm extends StateNotifier<LendListModel?> {
@@ -9,7 +9,7 @@ class LendTabVm extends StateNotifier<LendListModel?> {
   Future<void> notifyInit() async {
     List<dynamic> list = await LendRepository.instance.findAll();
 
-    List<_Book> newList = list.map((e) => _Book.fromMap(e)).toList();
+    List<Lend> newList = list.map((e) => Lend.fromMap(e)).toList();
 
     state = LendListModel(newList);
   }
@@ -21,10 +21,10 @@ class LendTabVm extends StateNotifier<LendListModel?> {
     print('연장 날짜 $newReturnDate');
 
     // 리스트를 순회하면서 해당 도서를 찾아 연장 날짜를 업데이트 (map 사용)
-    List<_Book> updatedList = state!.list.map((book) {
+    List<Lend> updatedList = state!.list.map((book) {
       if (book.isbn13 == isbn13) {
         // 연장된 날짜로 해당 도서의 정보 업데이트
-        return _Book(
+        return Lend(
           isbn13: book.isbn13,
           title: book.title,
           cover: book.cover,
@@ -42,7 +42,7 @@ class LendTabVm extends StateNotifier<LendListModel?> {
   Future<void> returnBook(String isbn13) async {
     dynamic returnedDate = await LendRepository.instance.returnBook(isbn13);
 
-    List<_Book> updatedList =
+    List<Lend> updatedList =
         state!.list.where((book) => book.isbn13 != isbn13).toList();
 
     // 상태를 업데이트하여 화면을 다시 그리게 함
@@ -53,32 +53,9 @@ class LendTabVm extends StateNotifier<LendListModel?> {
 // 2. 창고 데이터 (State)
 class LendListModel {
 //private으로 쓸려고 언더바를 붙여서 뺐다.
-  List<_Book> list;
+  List<Lend> list;
 
   LendListModel(this.list);
-}
-
-class _Book {
-  String isbn13;
-  String title;
-  String cover;
-  String returnDate;
-
-  _Book(
-      {required this.returnDate,
-      required this.isbn13,
-      required this.cover,
-      required this.title});
-
-  //String returnDate;
-
-  _Book.fromMap(map)
-      : this.isbn13 = map['isbn13'],
-        this.title = map['title'],
-        this.cover = map['cover'],
-        this.returnDate = DateUtil.format(map['returnDate']);
-
-//this.returnDate = map['returnDate'];
 }
 
 // 3. 창고 관리자 (Provider)

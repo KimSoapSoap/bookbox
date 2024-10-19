@@ -1,5 +1,5 @@
 import 'package:bookbox/ui/detail/detail_book_page.dart';
-import 'package:bookbox/ui/main/library/history_tab/history_tab_vm.dart';
+import 'package:bookbox/ui/main/library/_components/library_lend.dart';
 import 'package:flutter/material.dart';
 
 class HistoryListItem extends StatelessWidget {
@@ -20,7 +20,7 @@ class HistoryListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailBookPage(lend.isbn13),
+            builder: (context) => DetailBookPage(lend.isbn13!),
           ),
         );
       },
@@ -35,7 +35,7 @@ class HistoryListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.network(
-              lend.cover, // 이미지 URL
+              lend.cover!, // 이미지 URL
               height: 50,
               width: 30,
               fit: BoxFit.cover,
@@ -46,7 +46,7 @@ class HistoryListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lend.title,
+                    lend.title!,
                     style: TextStyle(
                       fontSize: 15,
                     ),

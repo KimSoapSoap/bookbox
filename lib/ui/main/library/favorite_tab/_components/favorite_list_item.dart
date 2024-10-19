@@ -124,6 +124,7 @@ class FavoriteListItem extends ConsumerWidget {
                 print("확인 선택시 대여 로직 실행");
 
                 // 선택한 책의 ISBN13을 가져와 대여 처리
+                print(book.isbn13);
                 ref.read(favoriteProvider.notifier).lendBook(book.isbn13 ?? "");
               },
             ).show(context);
